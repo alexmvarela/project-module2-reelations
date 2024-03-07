@@ -6,7 +6,7 @@
     slideButtons.forEach(button => {
         button.addEventListener('click', () => {
             const direction = button.id === 'prev-slide' ? -1 : 1;
-            const scrollAmount = imageItem.clientWidth * direction;
+            const scrollAmount = imageItem.clientWidth * 2  * direction;
             imageList.scrollBy({ left: scrollAmount, behavior: 'smooth'})
         })
     })
@@ -14,3 +14,5 @@
  
  
  window.addEventListener('load', initSlider);
+
+ 

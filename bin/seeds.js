@@ -2,6 +2,7 @@ require('dotenv/config');
 require('../configs/db.config');
 
 const Movie = require('../models/movie.model')
+const Genre = require('../models/genre.model')
 
 const options = {
   method: 'GET',
@@ -17,12 +18,23 @@ let i = 1;
 let num = 10000
 
 
+const genresUrl = 'https://api.themoviedb.org/3/genre/movie/list?language=en'
+
+fetch(genresUrl, options)
+    .then(response => response.json())
+    .then(json => {
+      return Genre.create(json.genres)
+            .then((genres) => console.info('Genres created'))
+            .catch(err => console.error('error creating genres:' + err))
+    })
+    .catch(err => console.error('error:' + err))
+
 function fetchPage() {
     if (i <= num) {
-        const newUrl = `https://api.themoviedb.org/3/discover/movie?page=${i}&sort_by=popularity.desc`;
+        //const newUrl = `https://api.themoviedb.org/3/discover/movie?page=${i}&sort_by=popularity.desc`;
        //const newUrl = `https://api.themoviedb.org/3/discover/movie?include_video=false&language=es-ES&page=${i}&sort_by=popularity.desc`;
-
-        fetch(newUrl, options)
+       
+        fetch(Url, options)
             .then(response => response.json())
             .then(json => {
                 if (json.results) {
@@ -46,7 +58,7 @@ function fetchPage() {
     }
 }
 
-fetchPage(); // Inicia el proceso
+// fetchPage(); // Inicia el proceso
 
 
 

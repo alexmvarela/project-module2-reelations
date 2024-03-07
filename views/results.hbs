@@ -1,0 +1,11 @@
+<div class="newContainer">
+    <div class="slider-wrapper">
+        <button class="slide-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="image-list">
+            {{#each firstResults as |movie|}}
+                <img class="image-item" src="{{movie.image}}" alt="">
+            {{/each}}
+        </div>
+        <button class="slide-button" id="next-slide"><i  class=" fa-solid fa-chevron-right"></i></button>
+    </div>
+</div>

@@ -63,3 +63,4 @@ movieSchema.pre('save', function (next) {
 
 const Movie = mongoose.model('Movie', movieSchema);
 module.exports = Movie;
+

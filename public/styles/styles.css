@@ -3,10 +3,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+html {
+    background-color: #111
+}
 
 body {
-
+    background-color: ;
     min-height: 100vh;
+}
+
+h1, h2 {
+    font-family: "Comfortaa", sans-serif;
 }
 
 
@@ -18,7 +25,7 @@ body {
     scrollbar-width: none;
     width: 98%;
     margin: auto;
-    grid-template-columns: repeat(20, 1fr);
+    grid-template-columns: repeat(35, 1fr);
 
 }
 .slider-wrapper{
@@ -42,7 +49,8 @@ body {
 
 .newContainer {
     max-width: 98vw;
-    width: 95%;
+    margin: auto;
+    width: 98%;
 }
 
 .slider-wrapper .slide-button{
@@ -72,6 +80,260 @@ body {
 /** NAVBAR */
 
 .navbar-img {
-    height: 50px;
+    height: 35px;
     margin-left: 20px;
+    margin-right: 10px;
 }
+
+.main-navbar {
+    background-color: #0d0d0db0; 
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px; 
+    z-index: 1000; 
+    backdrop-filter: blur(10px);
+}
+
+.nav-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%; 
+}
+
+.nav-container-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+
+
+
+.nav-container-menu button{
+    height: 30px;
+    border-radius: 0;
+}
+.navbar-navig{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.nav-tog {
+    background-color: white;
+}
+
+.main-navbar a{
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-position 0.3s ease;
+
+}
+
+.main-navbar a:hover{
+    background: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(105, 105, 105, 0.051) 50%, rgba(255, 255, 255, 0) 100%);
+    color: #D94A4A;
+}
+
+.nav-item .nav-active{
+    color: #D94A4A;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.logindiv {
+    display: flex;
+    flex-direction: row;
+    margin: 0 30px 0 0 ;
+   
+}
+
+.login-btn {
+    background: none;
+    box-shadow: none;
+    border: 1px solid white;
+    color: white;
+    width: 120px;
+}
+
+.signin-btn {
+    background-color: #D94A4A;
+    box-shadow: none;
+    border: none;
+    margin-left: 20px;
+    color: white;
+    width: 120px;
+}
+
+.search-form input, .search-form button {
+    box-shadow: none;
+    border: none;
+    background: none;
+    outline: none;
+    color: white;
+}
+
+
+
+.text-btn-search {
+    color: rgba(255, 255, 255, 0.701);
+    width: 40px;
+}
+
+.search-form {
+    border: .5px solid rgba(255, 255, 255, 0.754);
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 20px;
+    margin-right: 20px;
+    width: 300px;
+}
+
+
+
+.navitem {
+    margin: 0 10px;
+}
+
+
+/*  STARS INPUT  */
+
+.stars-container {
+    width: 180px;
+    background-color: #111;
+    padding: 5px 3px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.stars-container .star-widget input{
+    display: none;
+}
+
+.star-widget label{
+    font-size: 18px;
+    color: #444;
+    padding: 5px;
+    float: right;
+    transition: all 0.2s ease;
+}
+.star-widget input:not(:checked) ~ label:hover,
+.star-widget input:not(:checked) ~ label:hover ~ label {
+    color: #fd4;
+}
+
+input:checked ~ label{
+    color: #fd4;
+}
+
+/* trending section */
+
+.trending{
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgb(24, 24, 24) 100%);
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.section-titles{
+    font-size: 28px;
+    color: white;
+    margin: 25px 40px -35px 40px;
+    font-weight: 700;
+}
+
+/*  RANDOM SECTION */
+
+.random-movie{
+    background-image: url(/img/jeff-pierre-5X5I20O_Vbg-unsplash.jpg);
+    background-size: cover;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.random-container {
+    width: 80%;
+    height: 90%;
+    margin: auto;
+    background-color: #0d0d0db0; 
+    backdrop-filter: blur(10px);
+}
+
+.random-container h2{
+    color: white;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.filters-div {
+    width: 30%;
+    margin-left: 40px;
+}
+
+.form-genre {
+    background: none;
+    color: white;
+    padding: 10px 20px;
+    width: 200px;
+    
+    
+    cursor: pointer;
+}
+
+select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #fff
+}
+
+
+select option {
+    background-color: rgb(25, 25, 25); 
+    color: #fff; 
+}
+
+select option:checked {
+    background-color: #333; 
+}
+
+select option:hover {
+    background-color: #555; 
+}
+
+.filters-p {
+    color: white;
+    font-family: "Comfortaa", sans-serif;
+    font-size: 20px;
+    border-bottom: 0.5px solid white;
+    width: 180px;
+}
+
+.random-btn {
+    background-color: #D94A4A;
+    box-shadow: none;
+    border: none;
+    margin-left: 20px;
+    color: white;
+    width: 120px;
+    height: 40px;
+}
+
