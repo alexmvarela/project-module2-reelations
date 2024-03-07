@@ -1,9 +1,7 @@
 const express = require('express');
-const misc = require('../controllers/home.controller')
-const tmdb = require('../configs/tmdb.config')
-
+const home = require('../controllers/home.controller');
 const router = express.Router();
 
-router.get('/', misc.home)
+router.get('/', home.home);
 
-module.exports = router
+module.exports = router;

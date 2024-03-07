@@ -1,7 +1,19 @@
-{{#each trendings.results as |movie|}}
-    <h1>{{movie.title}}</h1>
-{{/each}}
 
-{{#each randomMovie.results as |random|}}
-    <h2>{{random.title}}</h2>
-{{/each}}
+
+
+
+<div class="newContainer">
+    <div class="slider-wrapper">
+        <button class="slide-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="image-list">
+            {{#each movies as |movie|}}
+                <img class="image-item" src="{{movie.image}}" alt="">
+            {{/each}}
+        </div>
+        <button class="slide-button" id="next-slide"><i  class=" fa-solid fa-chevron-right"></i></button>
+    </div>
+</div>
+
+
+
+<script src="scripts/trending.js" defer></script>
