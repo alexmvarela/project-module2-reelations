@@ -29,7 +29,7 @@ const movieSchema = new Schema(
             type: String
         },
         vote_average: {
-            type: Number
+            type: Number,
         },
         vote_count: {
             type: Number

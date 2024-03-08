@@ -4,11 +4,11 @@
     box-sizing: border-box;
 }
 html {
-    background-color: #111
+    background-color: #111;
+    font-family: "Comfortaa", sans-serif;
 }
 
 body {
-    background-color: ;
     min-height: 100vh;
 }
 
@@ -16,6 +16,9 @@ h1, h2 {
     font-family: "Comfortaa", sans-serif;
 }
 
+.uppercase-text{
+    text-transform: uppercase;
+}
 
 .slider-wrapper .image-list {
     display: grid;
@@ -40,7 +43,7 @@ h1, h2 {
 }
 
 .slider-wrapper .image-list .image-item{
-    height: 30vh;
+    height: 300px;
     object-fit: cover;
     flex: 0 0 auto; /* Añade esta línea para ajustar el tamaño de las imágenes */
 
@@ -114,7 +117,7 @@ h1, h2 {
 
 
 .nav-container-menu button{
-    height: 30px;
+    height: 35px;
     border-radius: 0;
 }
 .navbar-navig{
@@ -178,6 +181,7 @@ h1, h2 {
     background: none;
     outline: none;
     color: white;
+    
 }
 
 
@@ -191,7 +195,7 @@ h1, h2 {
     border: .5px solid rgba(255, 255, 255, 0.754);
     display: flex;
     justify-content: space-between;
-    padding: 4px 20px;
+    padding: 1px 20px;
     margin-right: 20px;
     width: 300px;
 }
@@ -207,7 +211,6 @@ h1, h2 {
 
 .stars-container {
     width: 180px;
-    background-color: #111;
     padding: 5px 3px;
     border: 1px solid #444;
     border-radius: 5px;
@@ -217,13 +220,17 @@ h1, h2 {
     flex-direction: column;
 }
 
+
+
 .stars-container .star-widget input{
+    display: none;
+}
+.random-stars .star-widget input{
     display: none;
 }
 
 .star-widget label{
     font-size: 18px;
-    color: #444;
     padding: 5px;
     float: right;
     transition: all 0.2s ease;
@@ -252,7 +259,7 @@ input:checked ~ label{
 .section-titles{
     font-size: 28px;
     color: white;
-    margin: 25px 40px -35px 40px;
+    margin: 25px 40px -20px 40px;
     font-weight: 700;
 }
 
@@ -261,18 +268,23 @@ input:checked ~ label{
 .random-movie{
     background-image: url(/img/jeff-pierre-5X5I20O_Vbg-unsplash.jpg);
     background-size: cover;
-    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 100%;
 }
 
 .random-container {
-    width: 80%;
-    height: 90%;
+    width: 95%;
+    height: 100%;
     margin: auto;
-    background-color: #0d0d0db0; 
+    background-color: #151515e5; 
     backdrop-filter: blur(10px);
+    position: relative;
+   
+    margin-bottom: 30px;
+    overflow: auto;
+    padding-bottom: 30px;
 }
 
 .random-container h2{
@@ -282,8 +294,8 @@ input:checked ~ label{
 }
 
 .filters-div {
-    width: 30%;
-    margin-left: 40px;
+    width: 25%;
+    margin-left: 70px;
 }
 
 .form-genre {
@@ -291,8 +303,6 @@ input:checked ~ label{
     color: white;
     padding: 10px 20px;
     width: 200px;
-    
-    
     cursor: pointer;
 }
 
@@ -325,9 +335,10 @@ select option:hover {
     font-size: 20px;
     border-bottom: 0.5px solid white;
     width: 180px;
+    margin-top: 20px;
 }
 
-.random-btn {
+.randomform-btn {
     background-color: #D94A4A;
     box-shadow: none;
     border: none;
@@ -336,4 +347,173 @@ select option:hover {
     width: 120px;
     height: 40px;
 }
+
+.viewall-btn {
+    position: absolute;
+    bottom: 90px;
+    right: 60px;
+    margin-left: 30px;
+}
+
+.random-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 60px;
+    margin-left: 30px;
+}
+
+.movie-info-container{
+    width: 100%;
+    margin-right: 20px;
+    height: 410px;
+    border-left: 1px solid rgba(255, 255, 255, 0.537);
+    border-right: 1px solid rgba(255, 255, 255, 0.508);
+    position: relative;
+    padding: 20px;
+}
+
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 60%;
+    background: transparent; 
+    outline: none;
+  }
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 2px; 
+    background: white; 
+    border: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px; 
+    height: 20px; 
+    background: white; /* Color del círculo */
+    border-radius: 50%; /* Hace que el círculo sea redondeado */
+    border: 1px solid white; /* Borde blanco alrededor del círculo */
+    margin-top: -10px;
+  }
+
+  input[type="range"]:focus {
+    outline: none;
+  }
+  
+  input[type="range"]:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Efecto de sombra al enfocar el círculo */
+  }
+
+  .movie-info-container img{
+    margin: 10px 30px;
+  }
+
+  .movie-info-container p{
+    color: white;
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 20px;
+  }
+
+  .movie-info-container span{
+    color: rgb(128, 128, 128);
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+
+
+  .movie-info-container h1{
+    color: white;
+    font-size: 28px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .rate-container {
+    margin-right: 30px;
+    width: 230px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+   
+  }
+
+  .info-average{
+    font-size: 16px;
+    margin-bottom: 0;
+    color: rgb(128, 128, 128);
+    text-align: center;
+  }
+
+  .info-votes{
+    font-size: 16px;
+    margin-bottom: 0;
+    color: rgb(128, 128, 128);
+    text-align: right;
+  }
+
+  .rate-container p{
+    color: white;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .rate-container span{
+    color: rgb(135, 135, 135);
+  }
+
+
+  .random-stars{
+    background-color: none;
+    margin-bottom: 10px;
+    width: 180px;
+    padding: 5px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+
+
+
+.random-stars input:not(:checked) ~ label:hover,
+.random-stars input:not(:checked) ~ label:hover ~ label {
+    color: rgb(255, 68, 68);
+}
+
+.random-stars input:checked ~ label{
+    color: #fd4;
+}
+
+.click {
+	font-size: 33px;
+	color: rgba(0,0,0,.5);
+	width: 38px;
+	height: 38px;
+	margin: 0 auto;
+	margin-top: 20px;
+	position: relative;
+	cursor: pointer;
+}
+
+.click span {
+	margin-left: 4px;
+	margin-top: 3px;
+	z-index: 999;
+	position: absolute;
+}
+
+span:hover {
+	opacity: 0.8;
+    color: #D94A4A;
+}
+
+span:active {
+	transform: scale(0.93,0.93) translateY(2px)
+}
+
 

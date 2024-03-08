@@ -22,44 +22,98 @@
 <section class="random-movie">
     <div class="random-container">
     <h2>So, what film are we watching today?</h2>
-    <form class="filters-div" action="/random-movie" method="POST">
-        <div class="mb-3">
-            <p class="filters-p">Genres</p>
-            <select  name="genre" class="form-genre" id="inputGroupSelect01">
-                <option selected>Choose genre...</option>
+    <div class="d-flex">
+        <form class="filters-div" action="/random-movie" method="POST">
 
-                
-                {{#each genres as |gen|}}
-                    <option value="{{gen.id}}" {{#if gen.selected}}selected{{/if}}>{{gen.name}}</option>
-                {{/each}}
+            {{#if error}} ERROR! {{/if}}
+
+            <div class="mb-3">
+                <p class="filters-p">Genres</p>
+                <select  name="genre" class="form-genre" id="inputGroupSelect01">
+                    <option>Choose genre...</option>
+
+                    {{#each genres as |gen|}}
+                        <option value="{{gen.id}}" {{#if gen.selected}}selected{{/if}}>{{gen.name}}</option>
+                    {{/each}}
 
 
-            </select>
+                </select>
+            </div>
+            <p class="filters-p">Valoration</p>
+            <div class="stars-container">
+                <div class="star-widget">
+                    <input type="radio" name="vote_average" id="rate-5" value="8" {{#ifEq rate '8'}}checked{{/ifEq}} >
+                    <label for="rate-5" class="fas fa-star"></label>
+                    <input type="radio" name="vote_average" id="rate-4" value="6.5"{{#ifEq rate '6.5'}}checked{{/ifEq}}>
+                    <label for="rate-4" class="fas fa-star"></label>
+                    <input type="radio" name="vote_average" id="rate-3" value="5"{{#ifEq rate '5'}}checked{{/ifEq}}>
+                    <label for="rate-3" class="fas fa-star"></label>
+                    <input type="radio" name="vote_average" id="rate-2" value="4"{{#ifEq rate '4'}}checked{{/ifEq}}>
+                    <label for="rate-2" class="fas fa-star"></label>
+                    <input type="radio" name="vote_average" id="rate-1" value="2"{{#ifEq rate '2'}}checked{{/ifEq}}>
+                    <label for="rate-1" class="fas fa-star"></label>
+                </div>
+            </div>
+            <p class="filters-p">Decade</p>
+            <input type="range" class="range-input" min="1900" max="2030" step="10" id="customRange3" value="2030">
+            <button class="randomform-btn viewall-btn" type="submit" name="action" value="viewAll">view all</button>
+            <button class="randomform-btn random-btn" type="submit" name="action" value="random">random</button>
+        </form>
+
+        <div class="movie-info-container d-flex">
+            {{#if getRandom }}
+                    <img src="{{getRandom.image}}" alt="">
+
+                    <div class="movie-text d-flex flex-column">
+                        <h1>{{getRandom.title}}</h1>
+                    <div class="d-flex flex-row" >
+                        <span class="info-p">Original title:</span> <p>{{getRandom.original_title}}</p>
+                    </div>
+                    <div class="d-flex flex-row" >
+                    <span class="info-p">Original language:</span> <p class="uppercase-text" >{{getRandom.original_language}}</p>
+                    </div>
+                    <div class="" >
+                    <span class="info-p">Overview:</span> <p class="mt-2">{{getRandom.overview}}</p>
+                    </div>
+                    <div class="d-flex flex-row" >
+                    <span class="info-p">Realase date:</span> <p>{{getRandom.release_date}}</p>
+                    </div>
+                    
+                </div>
+            {{/if}}
+         </div>
+        
+        <div class="rate-container" >
+        {{#if getRandom }}
+            <div class="random-stars">
+                <form action="/vote" method="POST">
+                    <div class="star-widget">
+                            <input type="radio" name="vote_average" id="rate-5" value="8" {{#ifEq rate '8'}}checked{{/ifEq}} >
+                            <label for="rate-5" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rate-4" value="6.5"{{#ifEq rate '6.5'}}checked{{/ifEq}}>
+                            <label for="rate-4" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rate-3" value="5"{{#ifEq rate '5'}}checked{{/ifEq}}>
+                            <label for="rate-3" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rate-2" value="4"{{#ifEq rate '4'}}checked{{/ifEq}}>
+                            <label for="rate-2" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rate-1" value="2"{{#ifEq rate '2'}}checked{{/ifEq}}>
+                            <label for="rate-1" class="fas fa-star"></label>
+                    </div>
+                </form>
+            </div>
+            <p> <span>Average: </span> {{getRandom.vote_average}}</p></span> 
+            <p><span>Votes: </span> {{getRandom.vote_count}}</p></span> 
+
+            <div class="click">
+                <button><span class="fas fa-heart"></span></button>  
+            </div>
+         {{/if }}
         </div>
-        <p class="filters-p">Valoration</p>
-        <div class="stars-container">
-        <div class="star-widget">
-            <input type="radio" name="vote_average" id="rate-5" value="8">
-            <label for="rate-5" class="fas fa-star"></label>
-            <input type="radio" name="vote_average" id="rate-4" value="6.5">
-            <label for="rate-4" class="fas fa-star"></label>
-            <input type="radio" name="vote_average" id="rate-3" value="5">
-            <label for="rate-3" class="fas fa-star"></label>
-            <input type="radio" name="vote_average" id="rate-2" value="4">
-            <label for="rate-2" class="fas fa-star"></label>
-            <input type="radio" name="vote_average" id="rate-1" value="2">
-            <label for="rate-1" class="fas fa-star"></label>
-        </div>
-        </div>
-        <button class="random-btn" type="submit" name="action" value="viewAll">view all</button>
-        <button class="random-btn" type="submit" name="action" value="random">random</button>
-    </form>
+        
+    </div>
+    
 
-    {{#if getRandom }}
-        <h1>{{getRandom.title}}</h1>
-        <img src="{{getRandom.image}}" alt="">
-    {{/if}}
-</div>
+    </div>
 </section>
 
 
@@ -77,3 +131,4 @@
 
 
 <script src="scripts/trending.js" defer></script>
+<script src="scripts/fav.js"></script>

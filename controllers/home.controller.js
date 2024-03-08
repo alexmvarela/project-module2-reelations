@@ -18,8 +18,8 @@ module.exports.home = (req, res, next) => {
 
 module.exports.filter = (req, res, next) => {
 
-    const rate = req.body.vote_average
-
+    let rate = req.body.vote_average || "0"
+    
     if(req.body.action === 'random') {
         Movie.find({lang: res.locals.lang}).limit(15)
         .then((movies) => {
@@ -27,6 +27,7 @@ module.exports.filter = (req, res, next) => {
             
             return Genre.find()
                 .then((genres) => {
+
                     return Movie.find({ vote_average: { $gte: rate }, genre_ids: { $in: [req.body.genre] }, lang: res.locals.lang })
                     .then((result) => {
                         return  Genre.findOne( {id: req.body.genre})
@@ -37,12 +38,15 @@ module.exports.filter = (req, res, next) => {
                                     }
                                  })       
                                 const getRandom = result[Math.floor(Math.random() * result.length) + 1]
-                                res.render('home', {getRandom, genres, movies: firstMovies, actualGen})
-                                console.log(req.body)
+                                res.render('home', {getRandom, genres, movies: firstMovies, actualGen, rate})
+                                console.log(rate)
                             })
+                            
                         
                     })
-                    .catch(next)
+                    .catch((error) => {
+                        res.status(400).render('home', { genres, movies: firstMovies, rate, error})
+                    })
                 })
         })
         .catch(next)
