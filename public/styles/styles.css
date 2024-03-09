@@ -10,30 +10,47 @@ html {
 
 body {
     min-height: 100vh;
+    scroll-behavior: smooth;
 }
 
 h1, h2 {
     font-family: "Comfortaa", sans-serif;
 }
 
+.hidden{
+    display: none !important;
+}
+
+.image-list{
+    align-content: center;
+    align-items: c;
+}
+
 .uppercase-text{
     text-transform: uppercase;
 }
 
+.inter-container{
+    display: flex;
+}
+
 .slider-wrapper .image-list {
     display: grid;
-    gap: 5px;
+    gap: 10px;
     font-size: 0;
     overflow-x: auto;
     scrollbar-width: none;
     width: 98%;
     margin: auto;
     grid-template-columns: repeat(35, 1fr);
+    height: 340px;
+    margin-top: 0px;
 
 }
 .slider-wrapper{
     position: relative;
     margin: 10px;
+    
 }
 
 
@@ -46,8 +63,13 @@ h1, h2 {
     height: 300px;
     object-fit: cover;
     flex: 0 0 auto; /* Añade esta línea para ajustar el tamaño de las imágenes */
+    transition: ease 0.2s;
 
 
+}
+
+.image-item:hover{
+    transform: scale(1.1);
 }
 
 .newContainer {
@@ -145,10 +167,14 @@ h1, h2 {
     color: #D94A4A;
 }
 
-.nav-item .nav-active{
-    color: #D94A4A;
+.navActive{
+    color: #D94A4A !important;
     font-weight: 700;
     text-decoration: none;
+}
+
+.nav-link:focus{
+    color: #D94A4A !important; 
 }
 
 .logindiv {
@@ -164,6 +190,11 @@ h1, h2 {
     border: 1px solid white;
     color: white;
     width: 120px;
+    transition: background-color 0.2s ease;
+    
+}
+.login-btn:hover {
+    background-color: #D94A4A;
 }
 
 .signin-btn {
@@ -173,6 +204,11 @@ h1, h2 {
     margin-left: 20px;
     color: white;
     width: 120px;
+    transition: background-color 0.2s ease;
+}
+
+.signin-btn:hover {
+    background-color: #8b2424;
 }
 
 .search-form input, .search-form button {
@@ -183,6 +219,14 @@ h1, h2 {
     color: white;
     
 }
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-clear-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
 
 
 
@@ -248,7 +292,7 @@ input:checked ~ label{
 
 .trending{
     background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgb(24, 24, 24) 100%);
+    background: linear-gradient(0deg, rgb(7, 7, 7) 0%, rgb(12, 12, 12) 35%, rgb(20, 20, 20) 100%);
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -265,6 +309,8 @@ input:checked ~ label{
 
 /*  RANDOM SECTION */
 
+
+
 .random-movie{
     background-image: url(/img/jeff-pierre-5X5I20O_Vbg-unsplash.jpg);
     background-size: cover;
@@ -278,10 +324,10 @@ input:checked ~ label{
     width: 95%;
     height: 100%;
     margin: auto;
-    background-color: #151515e5; 
+    background-color: #151515b1; 
     backdrop-filter: blur(10px);
     position: relative;
-   
+    min-height: 600px;
     margin-bottom: 30px;
     overflow: auto;
     padding-bottom: 30px;
@@ -346,13 +392,22 @@ select option:hover {
     color: white;
     width: 120px;
     height: 40px;
+    transition: background-color ease 0.2s;
 }
 
+.randomform-btn:hover {
+    background-color: #8b2424;
+}
 .viewall-btn {
     position: absolute;
     bottom: 90px;
     right: 60px;
     margin-left: 30px;
+}
+
+.viewall-btn a{
+    text-decoration: none;
+    color: white;
 }
 
 .random-btn {
@@ -370,6 +425,7 @@ select option:hover {
     border-right: 1px solid rgba(255, 255, 255, 0.508);
     position: relative;
     padding: 20px;
+    min-height: 500px;
 }
 
 
@@ -411,18 +467,23 @@ input[type="range"]::-webkit-slider-runnable-track {
     margin: 10px 30px;
   }
 
-  .movie-info-container p{
+  .info-txt{
     color: white;
     width: 100%;
     margin-left: 5px;
-    margin-right: 20px;
+    margin-right: 5px;
   }
 
-  .movie-info-container span{
+  .info-p{
     color: rgb(128, 128, 128);
     margin-left: 5px;
     margin-right: 5px;
+    max-width: 140px;
+    white-space: nowrap;
+    margin-bottom: 0;
   }
+
+  
 
 
 
@@ -499,21 +560,355 @@ input[type="range"]::-webkit-slider-runnable-track {
 	position: relative;
 	cursor: pointer;
 }
-
-.click span {
-	margin-left: 4px;
-	margin-top: 3px;
-	z-index: 999;
-	position: absolute;
+.click button{
+    border: none;
+    outline: none;
+    background: none;
 }
 
-span:hover {
+.click span:hover {
 	opacity: 0.8;
     color: #D94A4A;
 }
 
-span:active {
+.click span:active {
+    color: #D94A4A;
 	transform: scale(0.93,0.93) translateY(2px)
 }
 
 
+
+/* lang dropdown */
+
+.dropdown-menu {
+    background-color: #f8f9fa; 
+    border: 1px solid #dee2e6; 
+    min-width: 5rem !important;
+  }
+
+
+  
+  .dropdown-menu a {
+    color: #000000; 
+    font-size: 16px; 
+    display: block; 
+    text-decoration: none; 
+  }
+  
+
+  .dropdown-menu p {
+    font-size: 16px; 
+    margin-bottom: 4px;
+    margin-top: -3px;
+  }
+    .dropdown-toggle {
+        margin-right: 10px;
+        margin-bottom: -1px;
+    }
+
+    .dropdown-toggle i{
+        font-size: 20px;
+    }
+
+    .flag-btn {
+        width: 26.66px;
+        height: 20px;
+        margin: 0 10px 2px 0;
+    }
+
+  .dropdown-menu img {
+    margin-left: 5px;
+  }
+
+
+  .signup-section {
+   background-image: url(../img/blurlightlogin.jpg);
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+}
+
+.signup-container {
+    width: 450px;
+    height: 750px;
+    background-color: #2b2b2bd1;
+    margin: auto;
+    backdrop-filter: blur(10px);
+    border: 4px solid #D94A4A;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.signup-container p {
+    color: white;
+}
+
+.signup-container h2 {
+    color: white;
+    font-weight: 700;
+    margin-top: 30px;
+}
+
+.signup-container label {
+    color: white;
+    font-size: 14px;
+}
+
+.rounded-btn{
+    border-radius: 20px;
+    width: 250px !important;
+}
+
+.create-acc a{
+    color: white ;
+    font-weight: 700;
+}
+
+.kitten-img {
+    background-color: #D94A4A;
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+    position: relative;
+    margin: 20px;
+
+}
+.kitten-img img{
+    width: 85%;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+}
+
+.recharge-btn{
+    box-shadow: none;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    background-color: white;
+    color:#D94A4A ;
+    transition: transform ease 1s;
+}
+
+.recharge-btn:hover{
+    transform: rotate(380deg)
+}
+
+.signup-container form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.signup-container .signin-btn{
+    height: 40px;
+    width: 50%;
+    margin: 20px;
+}
+
+.signin-inp label {
+    margin-right: 10px;
+}
+
+.signin-inp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+  }
+.inp-icon {
+    position: relative;
+    left: 30px;
+    margin: 0;
+    color: #717171;
+}
+
+.all-signin-inp{
+    margin-left: -20px;
+}
+
+  .signin-inp input {
+    width: 250px;
+    height: 30px;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    border-radius: 15px;
+    padding-left: 40px;
+    transition: background-color ease 0.2s;
+    box-shadow: -2px 29px 12px -21px rgba(0, 0, 0, 0.694);
+
+  }
+
+  .signin-inp input:hover{
+    background-color: #e1e1e1;
+  }
+
+
+/** AVATAR COLOR */
+
+.color-btn {
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    height: 25px;
+    width: 25px;
+  }
+
+  .color-btn:hover{
+    box-sizing: border-box;
+    border: 3px solid white;
+  }
+
+  .green-btn {
+    background-color: #B5F587;
+    color: white;
+  }
+
+  .yellow-btn {
+    background-color: #F2F080;
+    color: white;
+  }
+
+  .pink-btn {
+    background-color: #F09294;
+    color: white;
+  }
+
+  .blue-btn {
+    background-color: #90CBF0;
+    color: white;
+  }
+
+  .purple-btn {
+    background-color: #D2A4DB;
+    color: white;
+  }
+
+  .color-btn-div {
+    margin: 10px 0 30px 0;
+  }
+  
+  .required-label::after {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    content: " *";
+    color: red;
+    font-size: 20px;
+}
+
+/* DANGER ZONE */
+
+.speech {
+    /* (A1) FONT & COLORS */
+    font-size: 16px;
+    color: #fff;
+    background: #D94A4A;
+  
+    /* (A2) DIMENSIONS */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  /* (B) USE ::AFTER TO CREATE THE "CALLOUT" */
+  .speech::after {
+    display: block; width: 0; content: "";
+    border: 15px solid transparent;
+  }
+   
+  .speech.left::after {
+    border-right-color:#D94A4A;
+    border-left: 0;
+  }
+  
+  /**************** POSITION *************/
+  .speech { 
+    position: absolute;
+    top: 50px;
+    left: 96%;
+    width: 100%;
+    max-width: 550px;
+  }
+  .speech::after { position: absolute; }
+  
+  .speech.left::after {
+    left: -15px; top: calc(50% - 15px);
+  }
+  
+  .login-titles h2{
+    text-align: center;
+    font-size: 78px;
+    margin-top: 70px;
+    margin-bottom: 0;
+  }
+
+  .login-titles h3{
+    text-align: center;
+    font-size: 22px;
+    color: white;
+    margin-top: 0px;
+    font-weight: 400;
+  }
+
+  .login-section {
+    background-image: url(../img/blurlightlogin.jpg);
+     background-size: cover;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     height: 100vh;
+     position: relative;
+ }
+
+ .login-section .signup-container{
+    height: 600px;
+ }
+
+ .login-section form{
+    margin-top: 70px;
+ }
+
+ .login-section form .signin-btn{
+    margin-top: 70px;
+ }
+
+ .invalid-inp{
+    border: 2px solid #D94A4A;
+ }
+
+ .red-alert{
+    color: #D94A4A;
+ }
+
+.catalog-main{
+    display: flex;
+}
+
+ .movies-filters{
+    width: 15%;
+    height: 100vh;
+    background-color: #191919;
+ }
+
+ .movies-catalog{
+    width: 85%;
+    height: 100vh;
+    background-color: #333;
+ }
+
+ .movies-filters form{
+    margin-top: 100px;
+    margin-left: 47px;
+ }

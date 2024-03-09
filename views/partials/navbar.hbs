@@ -5,14 +5,25 @@
         <a class="navbar-brand" href="/"><img class="navbar-img"  src="img/NEGlogotipo.png" alt=""></a>
           <ul class="navbar-nav navbar-navig">
             <li class="navitem">
-              <a class="nav-link nav-active" aria-current="page" href="#">Home</a>
+              <a class="navActive" aria-current="page" href="/">Home</a>
             </li>
             <li class="navitem ">
-              <a class="nav-link" href="#">Movies</a>
+              {{#if currentUser}}
+              <a class="" href="/movies">Movies</a>
+              {{/if}}
             </li>
-            <li class="navitem dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Accessibility
+
+          </ul>
+    </div>
+    <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+     
+    <div class="nav-container-menu" id="navbarSupportedContent">   
+         <div class="navitem dropdown">
+              <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-eye"></i>
               </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Action</a></li>
@@ -20,24 +31,36 @@
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
-            </li>
-            <a class="nav-link" href="/lang/ES">Español</a>
-            <a class="nav-link" href="/lang/EN">English</a>
-          </ul>
-    </div>
-    <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="nav-container-menu" id="navbarSupportedContent">    
+        </div>
+       <div class="navitem dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{#ifEq lang 'EN' }}<img class="flag-btn" src="img/united-kingdom.png" alt="">{{/ifEq}}
+                {{#ifEq lang 'ES' }}<img class="flag-btn" src="img/spain.png" alt=""> {{/ifEq}}
+              </a>
+                <ul class="dropdown-menu">
+                  <a class="nav-link d-flex" href="/lang/ES"><img class="flag-btn" src="img/spain.png" alt=""><p> ES </p></a>
+                  <a class="nav-link d-flex" href="/lang/EN"><img class="flag-btn" src="img/united-kingdom.png" alt=""><p> EN </p></a>
+                </ul>
+        </div> 
       <form class="d-flex search-form" role="search">
         <input class="text-inp-search" type="search" placeholder="Search" aria-label="Search">
         <button class="text-btn-search" type="submit">Search</button>
       </form>
       
-        <div class="logindiv">
-            <a href="#"><button class="login-btn">Log in</button></a>
-            <a href="#"><button class="signin-btn">Sign in</button></a>
+      
+
+      <div class="logindiv {{#if currentUser}} hidden {{/if}}">
+            <a href="/login"><button class="login-btn">Log in</button></a>
+            <a href="/signup"><button class="signin-btn">Sign up</button></a>
         </div>
+
+        {{#if currentUser}}
+        <a href="/profile"> {{currentUser.username}}<i class="fa-solid fa-circle-user"></i></a>
+        <a href="/logout"> <i class="fa-solid fa-right-from-bracket"></i></a>
+        {{/if}}
+        
+     
+        
     </div>
   </div>
 </nav>

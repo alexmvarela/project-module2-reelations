@@ -5,7 +5,7 @@ const routes = require('./configs/routes.config');
 
 const bodyParser = require('body-parser');
 
-const session = require('express-session') 
+
 
 
 
@@ -23,16 +23,29 @@ app.set('views', `${__dirname}/views`);
 // MIDDELWARES
 
 app.use(express.static(__dirname + '/public'));
-
-app.use(session({secret: "asdasd0"}))
-app.use((req, res, next) => {
-    res.locals.lang = req.session.lang || "EN";
-    next();
-  });
-
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// SESSION MIDDLEWARES
+const {session, loadUserSession} = require('./configs/session.config') // Coge el solo el atributo session del objeto session.config
+app.use(session); 
+
+app.use(loadUserSession);
+app.use((req, res, next) => {
+  res.locals.lang = req.session.lang || "EN";
+  next();
+});
+
+
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  res.locals.query = req.query;
+  next();
+});
+
+
+
+// APP ROUTES
 app.use('/', routes);
 
 

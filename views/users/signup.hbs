@@ -1,0 +1,86 @@
+
+
+<section class="signup-section">
+
+    <div class="signup-container">
+        <h2>Sign up</h2>
+        <div class="kitten-img">
+            <img id="kitImg"  src="" alt="">
+        </div>
+        
+    <form action="/signup" method="POST">
+        <div class="rech-div d-flex flex-column align-items-center">
+        <p>Generate avatar</p>
+        <button onclick="generateAvatar()" class="recharge-btn" name="suAction" value="getAvt" type="button"><i class="fa-solid fa-arrows-rotate"></i></button>
+
+
+        <div class="color-btn-div d-flex">
+        <div class="color-btn yellow-btn" onclick="changeColor('#F2F080')"></div>
+        <div class="color-btn green-btn" onclick="changeColor('#B5F587')"></div>
+        <div class="color-btn blue-btn" onclick="changeColor('#90CBF0')"></div>
+        <div class="color-btn pink-btn" onclick="changeColor('#F09294')"></div>
+        <div class="color-btn purple-btn" onclick="changeColor('#D2A4DB')"></div>
+        <input type="hidden" name="bgcolor" id="bgColorInput" value="#ffffff"> 
+        <input type="hidden" name="avatar" id="avatarInput" value="https://robohash.org/ecKARbAyhJ?set=set4">
+
+        </div>
+        
+
+        </div>
+
+        <div class="all-signin-inp d-flex flex-column align-items">
+            <div class="signin-inp">
+                <i class="inp-icon fa-regular fa-face-smile"></i>
+                <input placeholder="Name" value="{{user.name}}" type="text" name="name" id="nameinp">
+            </div>
+            <div class="signin-inp">
+                <i class="inp-icon fa-solid fa-circle-info"></i>
+                 <input placeholder="Surname" value="{{user.surname}}" type="text" name="surname" id="snameinp">
+            </div>
+            <div class="signin-inp">
+                <i class="inp-icon fa-solid fa-user"></i>
+                <input  placeholder="User name" value="{{user.username}}" type="text" name="username" id= "usernameinp">
+            </div>
+            <div class="signin-inp">
+                <i class="inp-icon fa-solid fa-envelope"></i>
+                <input placeholder="E-mail" value="{{user.email}}" type="email" name="email" id="emailinp">
+            </div>
+            <div class="signin-inp">
+                <i class="inp-icon fa-solid fa-lock"></i>
+                <input placeholder="Password" type="password" name="password" id="pswinp">
+            </div>
+        </div>
+        <button  class="signin-btn rounded-btn" name="suAction" value="signup" type="submit">Register</button>
+
+        
+    </form>
+    <!-- (A) SPEECH BUBBLES -->
+
+    <div class="speech left hidden"> <p></p>
+    </div>
+    </div>
+    </div>
+
+
+  
+
+
+</section>
+
+<script>
+    function generateAvatar() {
+
+        const random = Math.random().toString(36).substring(2,12)
+        const newAvatarUrl = "https://robohash.org/" + random + "?set=set4";
+
+        document.getElementById('kitImg').src = newAvatarUrl;
+        document.getElementById('avatarInput').value = newAvatarUrl;
+    }
+</script>
+
+<script>
+    function changeColor(color) {
+         document.getElementById('bgColorInput').value = color;
+         document.querySelector('.kitten-img').style.backgroundColor = color;
+    }
+</script>
