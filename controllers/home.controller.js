@@ -49,10 +49,17 @@ module.exports.filter = (req, res, next) => {
                                     if (g.id.toString() === actualGen.id.toString()) {
                                         g.selected = true
                                     }
-                                 })       
-                                const getRandom = result[Math.floor(Math.random() * result.length) + 1]
-                                res.render('home', {getRandom, genres, movies: firstMovies, actualGen, rate, decade})
-                            
+                                 }) 
+
+                                 if(result.length === 0) {
+                                    getRandom = null
+                                 } else {
+                                    getRandom = result[Math.floor(Math.random() * result.length) ]
+                                 }
+
+                                    
+                                    res.render('home', {getRandom, genres, movies: firstMovies, actualGen, rate, decade})
+                    
                                 
                             })
                             
@@ -66,13 +73,13 @@ module.exports.filter = (req, res, next) => {
         .catch(next)
     } else if (req.body.action === 'viewAll') {
 
-        Movie.find({lang: res.locals.lang}).limit(15)
+        Movie.find({lang: res.locals.lang}).limit(35)
         .then((movies) => {
-            const firstMovies = movies.slice(0, 15)
-            
+            const firstMovies = movies.slice(0, 35)
             return Genre.find()
                 .then((genres) => {
-                    return Movie.find({ vote_average: { $gte: rate }, genre_ids: { $in: [req.body.genre] }, lang: res.locals.lang, release_date: filterDate.release_date})
+
+                    return Movie.find({ vote_average: { $gte: rate }, genre_ids: { $in: [req.body.genre] }, lang: res.locals.lang, release_date: filterDate.release_date}).limit(35)
                     .then((result) => {
                         return  Genre.findOne( {id: req.body.genre})
                             .then((actualGen) => {
@@ -81,8 +88,8 @@ module.exports.filter = (req, res, next) => {
                                         g.selected = true
                                     }
                                  })       
-                                const firstResults = result
-                                res.render('movies/movies', {firstResults, genres, movies: firstMovies, actualGen, rate, decade})
+                                 res.render('movies/movies', { genres, movies: result, actualGen, rate, decade})
+                            
                             })
                     })
                     .catch((error) => {

@@ -27,7 +27,7 @@
     <p class="create-acc" >Don´t have an account? <a href="/signup">Create</a></p>
     <!-- (A) SPEECH BUBBLES -->
 
-    <div class=" {{#if errors}}speech left{{else}}speech left hidden{{/if}}"> 
+    <div class=" {{#if errors}}speech left speech-login{{else}}speech-login speech left hidden{{/if}}"> 
     
         {{#each errors as |error|}}
             <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; {{error}}</p>

@@ -2,17 +2,18 @@
 
     <aside class="movies-filters">
         
-         <form id="filters-form"  class="filters-div" action="/random-movie" method="POST">
+         <form id="filters-form"  class="filters-div" action="/movies" method="POST">
 
 
             <div class="mb-3">
                 <p class="filters-p">Genres</p>
                 <select  name="genre" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
-                    <option>Choose genre...</option>
+                    <option value="" >All genres</option>
 
                     {{#each genres as |gen|}}
                         <option value="{{gen.id}}" {{#if gen.selected}}selected{{/if}}>{{gen.name}}</option>
                     {{/each}}
+                    
 
 
                 </select>
@@ -39,12 +40,9 @@
                {{#ifDec decade '2030'}}{{decade}}{{else}}All decades{{/ifDec}}
                 
                </p>    
-            {{#if currentUser}}      
-            <button class="randomform-btn viewall-btn" type="submit" name="action" value="viewAll">View all</button>
-            {{else}}
-            <button class="randomform-btn viewall-btn" name="action" value="viewAll"><a href="/login">View all</a></button>
-            {{/if}}
-            <button class="randomform-btn random-btn" type="submit" name="action" value="random">Random</button>
+            
+            <button class="randomform-btn viewall-btn-movies" name="action" value="viewAll">Search</button>
+            
         </form>
 
         <a href="#">Your favorites</a>
@@ -59,17 +57,225 @@
 
     </aside>
     <section class="movies-catalog" >
-        <div class="newContainer">
-            <div class="slider-wrapper">
-                <button class="slide-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                    {{#each firstResults as |movie|}}
-                        <img class="image-item" src="{{movie.image}}" alt="">
-                    {{/each}}
+
+     {{#if movies}}
+
+                    {{#if actualGen }}
+                        <h2>{{actualGen.name}}</h2>
+                    {{else}}
+                        {{#if chosenGenreItem}}
+                            <h2>{{chosenGenreItem}}</h2>
+                        {{else}}
+                            <h2>All genres</h2>
+                        {{/if}}
+                        
+                    {{/if}}
+        
+        <div class="catalog-page">
+             {{#each movies as |movie|}}
+            
+                <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>
+
+            {{/each}}
+        </div>
+           
+    {{else}}
+
+    {{#if chosenGenreItem}}
+        <div class="illu1-div d-flex flex-column">
+             <img src="img/Mesa de trabajo 1333@3x.png" class="illu2" alt="">
+             <div class="speech speech-nothing">
+                            <h2>Seems like there is nothing around here</h2>
             </div>
-            <button class="slide-button" id="next-slide"><i  class=" fa-solid fa-chevron-right"></i></button>
+         </div>
+    {{else}}
+        
+    <h2 class="section-titles">Action</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-action"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each actionResult as |movie|}}
+                    <div class="img-container-works">
+                        <div class="overlay d-flex flex-column">
+                            <p class="overlay-title">{{movie.title}}</p>
+                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                            {{/each}}</p>
+                                        
+                        </div>
+                        <img class="image-item" src="{{movie.image}}" alt="">        
+                        </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-action"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
     </div>
-</div>
+
+        <h2 class="section-titles">Comedy</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-comedy"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each comedyResult as |movie|}}
+                    <div class="img-container-works">
+                        <div class="overlay d-flex flex-column">
+                            <p class="overlay-title">{{movie.title}}</p>
+                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                            {{/each}}</p>
+                                        
+                        </div>
+                        <img class="image-item" src="{{movie.image}}" alt="">        
+                        </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-comedy"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Drama</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-drama"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each dramaResult as |movie|}}
+                    <div class="img-container-works">
+                        <div class="overlay d-flex flex-column">
+                            <p class="overlay-title">{{movie.title}}</p>
+                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                            {{/each}}</p>
+                                        
+                        </div>
+                        <img class="image-item" src="{{movie.image}}" alt="">        
+                        </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-drama"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Documental</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-documental"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each documentalResult as |movie|}}
+                    <div class="img-container-works">
+                        <div class="overlay d-flex flex-column">
+                            <p class="overlay-title">{{movie.title}}</p>
+                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                            {{/each}}</p>
+                                        
+                        </div>
+                        <img class="image-item" src="{{movie.image}}" alt="">        
+                        </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-documental"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+       <h2 class="section-titles">Horror</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-horror"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each horrorResult as |movie|}}
+                    <div class="img-container-works">
+                        <div class="overlay d-flex flex-column">
+                            <p class="overlay-title">{{movie.title}}</p>
+                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                            {{/each}}</p>
+                                        
+                        </div>
+                        <img class="image-item" src="{{movie.image}}" alt="">        
+                        </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-horror"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Thriller</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-thriller"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each thrillerResult as |movie|}}
+                    <div class="img-container-works">
+                        <div class="overlay d-flex flex-column">
+                            <p class="overlay-title">{{movie.title}}</p>
+                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                            {{/each}}</p>
+                                        
+                        </div>
+                        <img class="image-item" src="{{movie.image}}" alt="">        
+                        </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-thriller"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Animation</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-animation"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each animationResult as |movie|}}
+                    <div class="img-container-works">
+                        <div class="overlay d-flex flex-column">
+                            <p class="overlay-title">{{movie.title}}</p>
+                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                            {{/each}}</p>
+                                        
+                        </div>
+                        <img class="image-item" src="{{movie.image}}" alt="">        
+                        </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-animation"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{/if}}
+
+       
+
     </section>
 
 </main>
+
+
+<script src="scripts/range.js"></script>
+<script src="scripts/trending.js" defer></script>

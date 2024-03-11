@@ -37,6 +37,11 @@ router.get('/logout', user.logout);
 
 // MOVIES
 
-router.get('/movies', movies.list)
+router.get('/movies', secure.isAuthenticated, movies.list)
+router.post('/movies', secure.isAuthenticated, movies.filter)
+
+
+
+
 
 module.exports = router;

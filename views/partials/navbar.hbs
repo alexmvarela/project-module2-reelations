@@ -3,7 +3,8 @@
     <div class="brand-menu d-flex">
         <a class="navbar-brand" href="/"><img class="navbar-img"  src="img/logo-1.png" alt=""></a>
         <a class="navbar-brand" href="/"><img class="navbar-img"  src="img/NEGlogotipo.png" alt=""></a>
-          <ul class="navbar-nav navbar-navig">
+    </div>
+     <ul class="navbar-nav navbar-navig">
             <li class="navitem">
               <a class="navActive" aria-current="page" href="/">Home</a>
             </li>
@@ -14,7 +15,6 @@
             </li>
 
           </ul>
-    </div>
     <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -55,8 +55,8 @@
         </div>
 
         {{#if currentUser}}
-        <a href="/profile"> {{currentUser.username}}<i class="fa-solid fa-circle-user"></i></a>
-        <a href="/logout"> <i class="fa-solid fa-right-from-bracket"></i></a>
+        <a class="profile-btn" href="/profile"> {{currentUser.username}} <img class="navbar-avt" style="background-color: {{currentUser.bgcolor}};" src="{{currentUser.avatar}}" alt="">  </a>
+        <a class="logout-btn" href="/logout"> <i class="fa-solid fa-right-from-bracket"></i></a>
         {{/if}}
         
      

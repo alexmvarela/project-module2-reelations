@@ -56,9 +56,13 @@
     </form>
     <!-- (A) SPEECH BUBBLES -->
 
-    <div class="speech left hidden"> <p></p>
-    </div>
-    </div>
+        <div class=" {{#if errors}}speech left speech-login{{else}}speech-login speech left hidden{{/if}}"> 
+        
+            {{#each errors as |error|}}
+                <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; {{error}}</p>
+            {{/each}}
+        
+        </div>
     </div>
 
 

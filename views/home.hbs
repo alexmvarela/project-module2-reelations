@@ -7,13 +7,29 @@
     <div class="slider-wrapper">
 
         <div class="inter-container">
-            <button class="slide-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="slide-button prev-slide-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
         <div class="image-list">
             {{#each movies as |movie|}}
-                <img class="image-item" src="{{movie.image}}" alt="">
+            
+                <div class="img-container-works">
+                    <div class="overlay d-flex flex-column">
+                        <p class="overlay-title">{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                        {{/each}}</p>
+
+        
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>
+
+
+                
             {{/each}}
         </div>
-        <button class="slide-button" id="next-slide"><i class="fa-solid fa-chevron-right"></i></button>
+        <button class="slide-button next-slide-button" id="next-slide"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
         
     </div>
@@ -26,7 +42,7 @@
 <section class="random-movie">
     <div class="random-container">
     <h2>So, what film are we watching today?</h2>
-    <div class="d-flex">
+    <div class="ran-con-wrp  d-flex">
         <form id="filters-form"  class="filters-div" action="/random-movie" method="POST">
 
 
@@ -73,6 +89,9 @@
         </form>
 
         <div class="movie-info-container d-flex">
+
+              
+
             {{#if getRandom }}
                     <img src="{{getRandom.image}}" alt="">
 
@@ -92,6 +111,30 @@
                         </div>
                     
                     </div>
+
+            {{else}}
+
+                 {{#if error }}
+               <div class="speech left speech-home">
+                     <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; Select at genre at least</p>
+                </div>
+                {{/if}}
+                        
+
+                {{#ifEq getRandom null}}
+                    <div class="illu1-div d-flex flex-column">
+                        <img src="img/Mesa de trabajo 1333@3x.png" class="illu2" alt="">
+                        <div class="speech speech-nothing">
+                            <h2>Seems like there is nothing around here</h2>
+                        </div>
+                    </div>
+                {{else}}
+                    <div class="illu1-div">
+                            <img src="img/Mesa de trabajo 1@3x.png" class="illu1" alt="">
+                        </div>
+                {{/ifEq}}
+                        
+                
            
             {{/if}}
          </div>
