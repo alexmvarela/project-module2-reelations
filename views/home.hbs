@@ -13,6 +13,10 @@
             
                 <div class="img-container-works">
                     <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+                        
                         <p class="overlay-title">{{movie.title}}</p>
                         <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -46,7 +50,7 @@
         <form id="filters-form"  class="filters-div" action="/random-movie" method="POST">
 
 
-            <div class="mb-3">
+           
                 <p class="filters-p">Genres</p>
                 <select  name="genre" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
                     <option>Choose genre...</option>
@@ -58,8 +62,8 @@
 
                 </select>
                 {{#if error}} <p class="red-alert" >Select a genre</p> {{/if}}
-            </div>
-            <p class="filters-p">Valoration</p>
+            
+            <p class="filters-p">User reviews</p>
             <div class="stars-container">
                 <div class="star-widget">
                     <input type="radio" name="vote_average" id="rate-5" value="8" {{#ifEq rate '8'}}checked{{/ifEq}} >
@@ -171,11 +175,10 @@
 
 
             {{#if currentUser}}
-            <form action="">
-                <div class="click">
-                <button><span class="fas fa-heart"></span></button>  
-                </div>
-            </form>
+            
+            <button class="like-btn {{#isLiked currentUser.likes getRandom._id}}liked{{/isLiked}}" data-id="{{getRandom._id}}"><i class="fas fa-heart"></i></button>
+
+            
             
             {{/if}}
          {{/if }}
@@ -195,8 +198,7 @@
 
 
 
-
-
+<script src="scripts/like.js"></script>
 <script src="scripts/range.js"></script>
 <script src="scripts/scrollform.js"></script>
 <script src="scripts/trending.js" defer></script>

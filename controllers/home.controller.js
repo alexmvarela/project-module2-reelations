@@ -1,8 +1,7 @@
 const Movie = require('../models/movie.model')
 const Genre = require('../models/genre.model.js')
 
-module.exports.home = (req, res, next) => {
-                
+module.exports.home = (req, res, next) => {                
     Movie.find({lang: res.locals.lang}).limit(35)
         .then((movies) => {
             
@@ -51,14 +50,13 @@ module.exports.filter = (req, res, next) => {
                                     }
                                  }) 
 
+                                 
+
                                  if(result.length === 0) {
                                     getRandom = null
                                  } else {
                                     getRandom = result[Math.floor(Math.random() * result.length) ]
-                                 }
-
-                                    
-                                    res.render('home', {getRandom, genres, movies: firstMovies, actualGen, rate, decade})
+                                 } res.render('home', {getRandom, genres, movies: firstMovies, actualGen, rate, decade})
                     
                                 
                             })

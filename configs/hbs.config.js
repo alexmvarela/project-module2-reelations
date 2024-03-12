@@ -84,3 +84,11 @@ hbs.registerHelper('ifEq', function (left, right, options) {
     }
   })
 
+  hbs.registerHelper('isLiked', function(likesArr, movieId, options) {
+    if (likesArr.includes(movieId)) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+

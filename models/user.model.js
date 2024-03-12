@@ -36,7 +36,11 @@ const userSchema = new Schema(
         bgcolor: {
             type: String,
             default: '#ffffff'
+        },
+        likes: {
+           type: [String] 
         }
+        
     },
     {timestamps: true}
 );

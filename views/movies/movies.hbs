@@ -1,11 +1,10 @@
 <main class="catalog-main" >
 
     <aside class="movies-filters">
-        
-         <form id="filters-form"  class="filters-div" action="/movies" method="POST">
+        <div class="movies-filters-div">
+             <form id="filters-form"  class="filters-div-catalog" action="/movies" method="POST">
 
 
-            <div class="mb-3">
                 <p class="filters-p">Genres</p>
                 <select  name="genre" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
                     <option value="" >All genres</option>
@@ -18,8 +17,8 @@
 
                 </select>
                 {{#if error}} <p class="red-alert" >Select a genre</p> {{/if}}
-            </div>
-            <p class="filters-p">Valoration</p>
+            
+            <p class="filters-p">User review</p>
             <div class="stars-container">
                 <div class="star-widget">
                     <input type="radio" name="vote_average" id="rate-5" value="8" {{#ifEq rate '8'}}checked{{/ifEq}} >
@@ -34,29 +33,72 @@
                     <label for="rate-1" class="fas fa-star"></label>
                 </div>
             </div>
-            <p class="filters-p">Decade</p>
-            <input name="release_date" type="range" class="range-input" min="1920" max="2030" step="10" id="customRange3" value="{{#if decade}}{{decade}}{{else}}2030{{/if}}" >
-             <p id="rangeValue" style="color: azure;">
-               {{#ifDec decade '2030'}}{{decade}}{{else}}All decades{{/ifDec}}
-                
+
+           
+                <p class="filters-p">Decade</p>
+                <input name="release_date" type="range" class="range-input" min="1920" max="2030" step="10" id="customRange3" value="{{#if decade}}{{decade}}{{else}}2030{{/if}}" >
+                <p id="rangeValue" style="color: azure;">
+               {{#ifDec decade '2030'}}{{decade}}{{else}}All decades{{/ifDec}} 
                </p>    
+            
+                <p class="filters-p">Sort by</p>
+                <select  name="sortby" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
+                    <option value="popularity" >Popularity</option>
+                    <option value="release_date" >Release date</option>
+                    <option value="vote_average" >User reviews</option>
+                    <option value="title" >Alphabetic</option>
+
+                    {{!-- <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
+                    <label class="btn btn-secondary" for="option1">Checked</label> --}}
+
+                    
+
+                    <div class="form-check">
+                        <input value="1" class="form-check-input" type="radio" name="order" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Ascendent
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input value="-1" class="form-check-input" type="radio" name="order" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            descendent
+                        </label>
+                    </div>
+                </select>
+            
+            
             
             <button class="randomform-btn viewall-btn-movies" name="action" value="viewAll">Search</button>
             
+        </form >
+
+        <form action="/favorites" method="POST" >
+                    <button class="fav-link" type="submit"><i class="fa-solid fa-heart"></i> Your favorites</button>
         </form>
+        </div>
 
-        <a href="#">Your favorites</a>
-
-        <p>Your playlists</p>
-        <ul>
-            <li>example</li>
-            <li>example</li>
-            <li>example</li>
-        <button>+</button>
-        </ul>
+        <p>
+    <button class="collaps-list" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+    </p>
+    <div style="min-height: 120px;">
+        <div class="collapse" id="collapseWidthExample">
+            <form class="form-createlist" action="/new-list" method="POST">
+                <div class="form-list">
+                    <input placeholder="Choose name" class="input-list" name="name" type="text">
+                    <button  class="create-list-btn" type="submit" >Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+        
 
     </aside>
     <section class="movies-catalog" >
+
+       
 
      {{#if movies}}
 
@@ -76,6 +118,9 @@
             
                 <div class="page-results">
                     <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                         <p class="overlay-title" >{{movie.title}}</p>
                         <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -88,8 +133,37 @@
 
             {{/each}}
         </div>
-           
     {{else}}
+
+    {{#if favMovies}}
+
+    <h1><i class="fa-solid fa-heart"></i> Your favorites</h1>
+
+    <div class="catalog-page">
+             {{#each favMovies as |movie|}}
+            
+                <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>
+
+            {{/each}}
+        </div>
+    
+
+
+    {{else}}
+    
 
     {{#if chosenGenreItem}}
         <div class="illu1-div d-flex flex-column">
@@ -109,6 +183,9 @@
                 {{#each actionResult as |movie|}}
                     <div class="img-container-works">
                         <div class="overlay d-flex flex-column">
+                            {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                             <p class="overlay-title">{{movie.title}}</p>
                             <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -133,6 +210,9 @@
                 {{#each comedyResult as |movie|}}
                     <div class="img-container-works">
                         <div class="overlay d-flex flex-column">
+                            {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                             <p class="overlay-title">{{movie.title}}</p>
                             <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -157,6 +237,9 @@
                 {{#each dramaResult as |movie|}}
                     <div class="img-container-works">
                         <div class="overlay d-flex flex-column">
+                            {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                             <p class="overlay-title">{{movie.title}}</p>
                             <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -181,6 +264,9 @@
                 {{#each documentalResult as |movie|}}
                     <div class="img-container-works">
                         <div class="overlay d-flex flex-column">
+                            {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                             <p class="overlay-title">{{movie.title}}</p>
                             <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -205,6 +291,9 @@
                 {{#each horrorResult as |movie|}}
                     <div class="img-container-works">
                         <div class="overlay d-flex flex-column">
+                            {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                             <p class="overlay-title">{{movie.title}}</p>
                             <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -229,6 +318,9 @@
                 {{#each thrillerResult as |movie|}}
                     <div class="img-container-works">
                         <div class="overlay d-flex flex-column">
+                            {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                             <p class="overlay-title">{{movie.title}}</p>
                             <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -253,6 +345,9 @@
                 {{#each animationResult as |movie|}}
                     <div class="img-container-works">
                         <div class="overlay d-flex flex-column">
+                            {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
                             <p class="overlay-title">{{movie.title}}</p>
                             <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
                             {{#newGenre id}}  {{/newGenre}}
@@ -269,13 +364,15 @@
     </div>
     {{/if}}
     {{/if}}
+    {{/if}}
 
        
-
+<a href="/movies/?page={{2}}&genre={{gen.id}}&vote_average={{rate}}&realase_date={{decade}}">more results</a>
     </section>
 
 </main>
 
-
+<script src="scripts/like.js"></script>
+<script src="scripts/playlist.js"></script>
 <script src="scripts/range.js"></script>
 <script src="scripts/trending.js" defer></script>

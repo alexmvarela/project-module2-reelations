@@ -1,7 +1,13 @@
 const Genre = require('../models/genre.model')
 const Movie = require('../models/movie.model')
+const User = require('../models/user.model')
+const mongoose = require('mongoose')
 
 module.exports.list = (req, res, next) => {
+
+    // if (Object.keys(req.query).length === 0) {
+
+    // }
 
     const genreQuery = Genre.find();
     const animationQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [16] }}).limit(35)
@@ -46,9 +52,11 @@ module.exports.filter = (req, res, next) => {
             const actualPage = req.query.page ? parseInt(req.query.page, 10) : 1;
             const moviesPerPage = 35;
             
-          
-
-    
+            
+            const order = !req.body.order ? -1 : parseInt(req.body.order, 10);
+            const sortby = {};
+            if (req.body.sortby) 
+                sortby[req.body.sortby] = order;
 
             if(body.genre && chosenGenre) {
                 const chosenGenreItem = chosenGenre[0].name
@@ -58,16 +66,22 @@ module.exports.filter = (req, res, next) => {
                     }
                  }) 
 
-
-                return Movie.find({genre_ids: {$in: [body.genre]},  vote_average: { $gte: body.vote_average }, lang: res.locals.lang, release_date: filterDate.release_date })
+                return Movie.find({genre_ids: {$in: [body.genre]},
+                    vote_average: { $gte: body.vote_average },
+                    lang: res.locals.lang,
+                    release_date: filterDate.release_date
+                 })
+                .sort(sortby)
                 .skip((actualPage - 1) * moviesPerPage).limit(moviesPerPage)
                     .then((movies) => {
                         
+                    
 
                     res.render('movies/movies', {genres, movies, chosenGenreItem, rate})
             })
             } else {
                 return Movie.find({vote_average: { $gte: body.vote_average }, lang: res.locals.lang, release_date: filterDate.release_date }).limit(35)
+                .sort(sortby)
                 .skip((actualPage - 1) * moviesPerPage).limit(moviesPerPage)    
                     .then((movies) => {
                     res.render('movies/movies', {genres, movies})
@@ -81,3 +95,50 @@ module.exports.filter = (req, res, next) => {
         })
     .catch(next)
 }
+
+
+module.exports.like = (req, res, next) => {
+    const objectId = req.body.objectId
+    const userId = req.session.userId
+
+    User.findById(userId)
+        .then((user) => {
+            if (!user.likes.includes(objectId)) {
+                return User.findByIdAndUpdate(userId, { $addToSet: { likes: objectId } },{ new: true })
+                    .then(user => {
+                        res.send({ success: true, user: user });
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        res.status(500).send({success: false, error: 'Error al enviar like'})
+                    })
+            } else {
+                return User.findByIdAndUpdate(userId, { $pull: { likes: objectId } }, { new: true }) 
+                    .then(user => {
+                        res.send({success: true, user:user})
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        res.status(500).send({success: false, error: 'Error al borrar like'})
+                    })
+            }
+        })
+}
+
+module.exports.favorites = (req, res, next) => {
+    
+    const userId = req.session.userId; 
+    Genre.find()
+    .then((genres) => {
+        return User.findById(userId)
+            .then((user) => {
+                const ids = user.likes;
+                return Movie.find({ _id: { $in: ids } })
+                    .then((favMovies) => {
+                        res.render('movies/movies', {favMovies, genres})
+                    })
+
+            })
+    })
+    .catch(next) 
+} 
