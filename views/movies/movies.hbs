@@ -2,8 +2,7 @@
 
     <aside class="movies-filters">
         <div class="movies-filters-div">
-             <form id="filters-form"  class="filters-div-catalog" action="/movies" method="POST">
-
+             <form id="filters-form"  class="filters-div-catalog" action="/movies" method="GET">
 
                 <p class="filters-p">Genres</p>
                 <select  name="genre" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
@@ -73,7 +72,7 @@
             
         </form >
 
-        <form action="/favorites" method="POST" >
+        <form action="/favorites" method="GET" >
                     <button class="fav-link" type="submit"><i class="fa-solid fa-heart"></i> Your favorites</button>
         </form>
         </div>
@@ -366,8 +365,12 @@
     {{/if}}
     {{/if}}
 
-       
-<a href="/movies/?page={{2}}&genre={{gen.id}}&vote_average={{rate}}&realase_date={{decade}}">more results</a>
+
+ 
+    
+    <a href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">page2</a>ç
+            
+
     </section>
 
 </main>

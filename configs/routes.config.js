@@ -39,7 +39,6 @@ router.get('/logout', user.logout);
 // MOVIES
 
 router.get('/movies', secure.isAuthenticated, movies.list)
-router.post('/movies', secure.isAuthenticated, movies.filter)
 
 //LISTS
 
@@ -48,11 +47,9 @@ router.post('/new-list', secure.isAuthenticated, list.create)
 //FAV
 
 router.post('/like',secure.isAuthenticated, movies.like)
-router.post('/favorites',secure.isAuthenticated, movies.favorites)
+router.get('/favorites',secure.isAuthenticated, movies.favorites)
 
-
-
-
+//PAGES
 
 
 module.exports = router;
