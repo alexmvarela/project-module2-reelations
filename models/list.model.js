@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+ 
 
 const listSchema = new Schema(
     {
@@ -8,8 +9,14 @@ const listSchema = new Schema(
             required: [true, 'Playlist name is required']
         },
         movies: {
-            type: []
+            type: [String]
+        },
+        owner: {
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
+            required: true
         }
+        
     }
 )
 

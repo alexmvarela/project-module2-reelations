@@ -17,6 +17,7 @@ body {
     height: 100%;
     scroll-behavior: smooth;
     font-size: 1.6rem;
+    min-height: 100vh;
 }
 
 input {
@@ -99,8 +100,8 @@ h2{
 .slider-wrapper .slide-button{
     position: absolute;
     top: 50%;
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
     color: white;
     background-color: rgba(0, 0, 0, 0.316);
     border-radius: 50%;
@@ -109,7 +110,13 @@ h2{
     font-size: 1.2rem;
     cursor: pointer;
     transform: translateY(-50%);
+    z-index: 102;
+    
+}
 
+.slider-wrapper .slide-button:hover{
+    width: 50px;
+    height: 50px;
 }
 
 .next-slide-button{
@@ -254,6 +261,7 @@ h2{
     color: white;
     margin: auto;
     margin-left: -2px;
+    margin-right: 20px;
 }
 
 input[type="search"]::-webkit-search-cancel-button,
@@ -304,7 +312,7 @@ input[type="search"]::-webkit-search-clear-button {
 /*  STARS INPUT  */
 
 .stars-container {
-    width: 90%;
+    width: 80%;
     padding: 5px 3px;
     border: 1px solid #444;
     border-radius: 5px;
@@ -335,7 +343,7 @@ input[type="search"]::-webkit-search-clear-button {
     color: #fd4;
 }
 
-input:checked ~ label{
+.star-widget input:checked ~ label{
     color: #fd4;
 }
 
@@ -370,8 +378,7 @@ input:checked ~ label{
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.691); 
-    
-    
+
     justify-content: flex-end;
     opacity: 0; 
     transition: opacity 0.3s ease;
@@ -381,7 +388,7 @@ input:checked ~ label{
   .overlay-title{
     color: white;
     font-size: 1.6rem;
-    margin: 0 10px 0 30px
+    margin: 10px 10px 0 30px
   }
   .overlay-genre {
     font-size: 1.4rem;
@@ -389,7 +396,7 @@ input:checked ~ label{
     margin: 0 12px 0 30px
   }
 
-  .overlay i{
+  .like-btn i{
     position: absolute;
     font-size: 2rem !important;
     top: 10px;
@@ -413,6 +420,7 @@ input:checked ~ label{
 
 .filters-form{
     width: 20%;
+    ma
 }
 
 
@@ -459,7 +467,8 @@ input:checked ~ label{
 .form-genre {
     background: none;
     color: white;
-    padding: 10px 20px;
+    padding: 5px 20px;
+    font-size: 1.4rem;
     width: 90%;
     cursor: pointer;
 }
@@ -490,11 +499,11 @@ select option:hover {
 .filters-p {
     color: white;
     font-family: "Comfortaa", sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     border-bottom: 0.5px solid white;
     width: 90%;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .randomform-btn {
@@ -548,8 +557,9 @@ select option:hover {
     appearance: none;
     background: transparent; 
     outline: none;
-    margin: 20px, 0;
-  }
+    margin-top: 15px;   
+    margin-bottom: 10px;
+}
 
 input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
@@ -648,7 +658,6 @@ input[type="range"]::-webkit-slider-runnable-track {
   .random-stars{
     background-color: none;
     margin-bottom: 10px;
-    width: 180px;
     padding: 5px 3px;
     display: flex;
     align-items: center;
@@ -664,7 +673,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     color: rgb(255, 68, 68);
 }
 
-.random-stars input:checked ~ label{
+.random-stars input:checked, .random-stars label{
     color: #fd4;
 }
 
@@ -1021,6 +1030,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 .catalog-main{
     display: flex;
+    background-color: #111;
 }
 
  .movies-filters{
@@ -1037,8 +1047,10 @@ input[type="range"]::-webkit-slider-runnable-track {
     
  }
 
+
+
  .movies-filters-div{
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1048,22 +1060,41 @@ input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    background-color: #121212;
-    padding-top: 100px;
+    padding-top: 80px;
     padding-left: 15%;
     margin-bottom: 100px;
  }
 
- .movies-catalog h2{
+ .catalog-h2{
     color: white;
     font-weight: 700;
     margin-bottom: -20px;
     margin-left: 20px;
+    font-size: 3rem;
+ }
+
+
+ .catalog-h2 .redI{
+    color: #D94A4A;
+    font-size: 3rem;
+    margin-right: 1%;
+ }
+
+ .catalog-h2 .whiteI{
+    color: white;
+    font-size: 3rem;
+    margin-right: 1%;
+ }
+
+ .catalog-h2 i{
+    color: #D94A4A;
+    font-size: 3rem;
+    margin-right: 1%;
  }
 
 
  .filters-div-catalog {
-    margin-top: 100px;
+    margin-top: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1085,6 +1116,11 @@ input[type="range"]::-webkit-slider-runnable-track {
  .illu2 {
     margin: 0;
     width: 30%;
+ }
+
+ .illuSmall{
+    width: 20%;
+    margin-top: 100px;
  }
 
  .speech-nothing {
@@ -1122,24 +1158,47 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 .viewall-btn-movies{
-    margin: 30px 0;
+    margin: 20px 0;
     width: 90%;
 }
 
 .fav-link{
+    font-family: "Comfortaa", sans-serif;
     text-decoration: none;
     color: white;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     width: 100%;
     text-align: center;
     display: block;
     border: none;
     background: none;
+    margin-top: 10px;
+}
+
+.playlist-link{
+    font-family: "Comfortaa", sans-serif;
+    text-decoration: none;
+    color: white;
+    font-size: 1.6rem;
+    width: 100%;
+    text-align: center;
+    display: block;
+    border: none;
+    background: none;
+    margin-bottom: 10px;
+}
+
+.fav-link:hover{
+    color: #D94A4A;
+}
+.playlist-link:hover{
+    color: #D94A4A;
 }
 
 .fav-link i{
     color: #D94A4A;
     font-size: 25px;
+    margin-right: 10px;
 
 }
 
@@ -1162,11 +1221,12 @@ input[type="range"]::-webkit-slider-runnable-track {
     display: flex;
     flex-direction: row;
     width: 100%;
+    margin-top: 30px;
 }
 
 
 .form-createlist{
-    width: 90%;
+    width: 100%;
     margin-top: 20px !important;
 }
 
@@ -1185,11 +1245,25 @@ input[type="range"]::-webkit-slider-runnable-track {
     color: white;
     background: none;
     border: none;
-    margin-top: 30px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+   
     
 }
 .collaps-list i{
-    font-size: 2.4rem;
+    font-size: 1.3rem !important;
+    margin-right: 0 !important;
+}
+
+.playlist-a{
+    text-decoration: none;
+    color: white;
+}
+
+.playlist-a:hover{
+    text-decoration: none;
+    color: #D94A4A;
 }
 
 /* LIKE BTN */
@@ -1210,3 +1284,193 @@ input[type="range"]::-webkit-slider-runnable-track {
     font-size: 3.2rem;
     -webkit-text-stroke: 1px #D94A4A;
 }
+
+/** PAGINATION  **/
+
+.page-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -15%;
+    margin-top: 20px;
+    
+}
+
+.page-buttons.top{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5%;
+    margin-left: 5%;
+    align-items: center;
+ 
+    
+}
+
+.page-buttons.top h2{
+height: 50px;
+}
+
+.page-btn{
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    padding: 5px 20px;
+    border-radius: 10px;
+}
+
+.order-btns {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.order-btn {
+    display: none; /* Ocultar los botones de radio */
+}
+
+.order-btn + .order-label {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0px 8px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: white;
+}
+
+.order-btn:checked + .order-label {
+    border-color: white; /* Cambiar el borde al seleccionar */
+    background-color: rgba(255, 255, 255, 0.1); /* Cambiar el fondo al seleccionar */
+}
+footer {
+    background-color: #0a0a0a;
+    min-height: 300px;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer img{
+    height: 50px;
+    margin: 15px;
+}
+
+.footer-logo-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 18%;
+}
+
+footer p{
+    color: white;
+}
+.footer-social{
+    color: white;
+    border-left: 1px solid rgba(255, 255, 255, 0.477);
+    margin-left: 50px;
+    padding-left: 50px;
+}
+
+.footer-social div{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.footer-social p{
+    font-size: 1.4rem;
+    color: #717171;
+    margin: 3px 20px 0 20px;
+}
+.footer-social i {
+    font-size: 3rem;
+    color: white;
+    margin: 0 5px;
+}
+
+.footer-social h3 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+
+.playlist-group{
+    width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.511);
+    padding: 10px 15px;
+    border-radius: 8px;
+    position: relative;
+    min-height: 45px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.playlist-group ul{
+    list-style-type: none;
+    color: white;
+    padding-left: 0;}
+
+.addtolist-btn{
+    background: none;
+    border: none;
+    margin-top: 3px;
+    z-index: 999;
+}
+
+.addtolist-btn i {
+    color: white;
+    position: absolute;
+    font-size: 2rem;
+    top: 10px;
+    right: 50px;
+
+}
+
+.playlist-div{
+    margin: 10px 0;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.playlist-div h2{
+    color: white;
+    margin: 10px 0;
+    font-size: 1.6rem;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+.playlist-div i{
+    color: #ffffff;
+    font-size: 22px;
+    margin-right: 15px;
+
+}
+
+.collaps-inp div{ 
+    width: 100%;
+}
+
+.addtolist-btn-item{
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.catalog-errorpage {
+    margin: 0;
+}
+

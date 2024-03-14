@@ -18,11 +18,12 @@ require('./configs/hbs.config');
 require('./configs/db.config');
 
 app.set('view engine', 'hbs');
+app.use(express.static(__dirname + '/public'));
 app.set('views', `${__dirname}/views`);
 
 // MIDDELWARES
 
-app.use(express.static(__dirname + '/public'));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 

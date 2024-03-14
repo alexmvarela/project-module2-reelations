@@ -46,25 +46,15 @@
                     <option value="release_date" >Release date</option>
                     <option value="vote_average" >User reviews</option>
                     <option value="title" >Alphabetic</option>
-
-                    {{!-- <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
-                    <label class="btn btn-secondary" for="option1">Checked</label> --}}
-
-                    
-
-                    <div class="form-check">
-                        <input value="1" class="form-check-input" type="radio" name="order" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Ascendent
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input value="-1" class="form-check-input" type="radio" name="order" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            descendent
-                        </label>
-                    </div>
                 </select>
+
+                <div class="order-btns">
+                        <input class="order-btn" type="radio" name="order"  id="option5" autocomplete="off" value="-1" checked>
+                        <label class="order-label" for="option5"><i class="fa-solid fa-caret-down"></i></label> 
+                      
+                        <input class="order-btn" type="radio"  name="order"  id="option6" autocomplete="off" value="1">
+                        <label class="order-label" for="option6"><i class="fa-solid fa-caret-up"></i></label>
+                </div>
             
             
             
@@ -78,20 +68,33 @@
         </div>
 
         <p>
-    <button class="collaps-list" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-        <i class="fa-solid fa-plus"></i>
-    </button>
-    </p>
-    <div style="min-height: 120px;">
-        <div class="collapse" id="collapseWidthExample">
-            <form class="form-createlist" action="/new-list" method="POST">
-                <div class="form-list">
-                    <input placeholder="Choose name" class="input-list" name="name" type="text">
-                    <button  class="create-list-btn" type="submit" >Add</button>
+
+        <div class="playlist-div d-flex">
+          
+            <a  href="/playlists" class="playlist-link"><i class="fa-solid fa-clapperboard whiteI"></i> Your playlists</a>
+
+            <div class="playlist-group">
+           {{#each listResult as |list|}}
+                <a class="playlist-a" href="/lists/{{list._id}}">{{list.name}}</a>
+            {{/each}}
+            <button class="collaps-list" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+            </p>
+            <div style="collaps-inp">
+                <div class="collapse" id="collapseWidthExample">
+                    <div class="form-createlist">
+                        <div class="form-list">
+                            <input placeholder="Choose name" class="input-list" name="name" type="text" maxlength="15">
+                            <button class="create-list-btn">Add</button>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
+            </div>
+            <a class="playlist-a" href="/playlists">View all playlists</a>
+        
         </div>
-    </div>
         
 
     </aside>
@@ -102,12 +105,21 @@
      {{#if movies}}
 
                     {{#if actualGen }}
-                        <h2>{{actualGen.name}}</h2>
+                        <h2 class="catalog-h2" >{{actualGen.name}}</h2>
                     {{else}}
                         {{#if chosenGenreItem}}
-                            <h2>{{chosenGenreItem}}</h2>
+                            <h2 class="catalog-h2">{{chosenGenreItem}}</h2>
                         {{else}}
-                            <h2>All genres</h2>
+                            
+                            <div class="page-buttons top">
+                                <h2 class="catalog-h2" >All genres</h2>
+                                <div class="">
+                                    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>ç    
+                                    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>ç
+                                </div>
+                             </div>
+                                
+
                         {{/if}}
                         
                     {{/if}}
@@ -118,7 +130,20 @@
                 <div class="page-results">
                     <div class="overlay d-flex flex-column">
                         {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+
+                        <button class="addtolist-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePlaylists" aria-expanded="false" aria-controls="collapsePlaylists">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                        
+                        <div style="min-height: 120px;">
+                            <div class="collapse" id="collapsePlaylists">                                
+                                {{#each ../listResult as |list|}}
+                                <button class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                                {{/each}}
+                            </div>
+                        </div>
+                            
+                                <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
                             {{/if}}
                         <p class="overlay-title" >{{movie.title}}</p>
                         <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
@@ -136,7 +161,7 @@
 
     {{#if favMovies}}
 
-    <h1><i class="fa-solid fa-heart"></i> Your favorites</h1>
+    <h2 class="catalog-h2"><i class="fa-solid fa-heart"></i> Your favorites</h2>
 
     <div class="catalog-page">
              {{#each favMovies as |movie|}}
@@ -162,15 +187,59 @@
 
 
     {{else}}
-    
-
     {{#if chosenGenreItem}}
         <div class="illu1-div d-flex flex-column">
-             <img src="img/Mesa de trabajo 1333@3x.png" class="illu2" alt="">
+             <img src="img/Mesa de trabajo 1333@3x.png" class="illu2 illuSmall" alt="">
              <div class="speech speech-nothing">
                             <h2>Seems like there is nothing around here</h2>
             </div>
          </div>
+
+    {{else}}
+    
+    {{#if listMovies}}
+
+    
+    <h2 class="catalog-h2"><i class="fa-solid fa-clapperboard whiteI"></i> {{listName}}</h2>
+
+    <div class="catalog-page">
+             {{#each listMovies as |movie|}}
+            
+                <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                            {{/if}}
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
+                            {{#newGenre id}}  {{/newGenre}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>
+
+            {{/each}}
+     </div>
+    
+    {{else}}
+
+    {{#if listError}}
+
+        <h2 class="catalog-h2"><i class="fa-solid fa-clapperboard whiteI"></i> {{listName}}</h2>
+
+
+    <div class="catalog-errorpage">
+        <div class="illu1-div d-flex flex-column">
+             <img src="/img/Mesa de trabajo 1333@3x.png" class="illu2 illuSmall" alt="">
+             <div class="speech speech-nothing">
+                            <h2>Seems like there is nothing around here</h2>
+            </div>
+         </div>
+    </div>
+    
+
     {{else}}
         
     <h2 class="section-titles">Action</h2>
@@ -364,18 +433,22 @@
     {{/if}}
     {{/if}}
     {{/if}}
+    {{/if}}
+    {{/if}}
 
-
- 
-    
-    <a href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">page2</a>ç
-            
+ {{#if movies}}
+ <div class="page-buttons">
+    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>ç    
+    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>ç
+ </div>
+  {{/if}}   
 
     </section>
 
 </main>
 
-<script src="scripts/like.js"></script>
-<script src="scripts/playlist.js"></script>
-<script src="scripts/range.js"></script>
-<script src="scripts/trending.js" defer></script>
+
+<script src="/scripts/addToListSc.js"></script>
+<script src="/scripts/like.js"></script>
+<script src="/scripts/createList.js"></script>
+<script src="/scripts/range.js"></script>

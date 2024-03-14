@@ -5,9 +5,11 @@ const createError = ('http-errors');
 
 module.exports.create = (req, res, next) => {
 
+    req.body.owner = req.user.id
+
     List.create(req.body)
-        .then(() => {
-            res.redirect('/movies')
+        .then((list) => {
+            res.send({ success: true });
         })
         .catch(next)
 

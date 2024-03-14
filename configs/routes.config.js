@@ -42,7 +42,11 @@ router.get('/movies', secure.isAuthenticated, movies.list)
 
 //LISTS
 
-router.post('/new-list', secure.isAuthenticated, list.create)
+router.post('/new-list',secure.isAuthenticated, list.create)
+router.get('/lists/:listId', secure.isAuthenticated, movies.playList)
+
+
+router.post('/addto-list',secure.isAuthenticated, movies.addToList )
 
 //FAV
 

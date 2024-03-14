@@ -2,6 +2,7 @@ const Genre = require('../models/genre.model')
 const Movie = require('../models/movie.model')
 const User = require('../models/user.model')
 const mongoose = require('mongoose')
+const List = require('../models/list.model')
 
 module.exports.list = (req, res, next) => {
 
@@ -15,11 +16,13 @@ module.exports.list = (req, res, next) => {
         const horrorQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [27] }}).limit(35)
         const dramaQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [18] }}).limit(35)
         const documentalQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [99] }}).limit(35)
-        
-        Promise.all([genreQuery, animationQuery, actionQuery, comedyQuery, thrillerQuery, horrorQuery, dramaQuery, documentalQuery])
-            .then(([genres, animationResult, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult]) => {
+        const listQuery = List.find({owner: req.user.id}).limit(4)
+
+
+        Promise.all([genreQuery, animationQuery, actionQuery, comedyQuery, thrillerQuery, horrorQuery, dramaQuery, documentalQuery, listQuery])
+            .then(([genres, animationResult, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult, listResult]) => {
                                 
-                    res.render('movies/movies', {animationResult, genres, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult})
+                    res.render('movies/movies', {animationResult, genres, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult, listResult})
             })
             .catch(next)
     } else {
@@ -29,12 +32,14 @@ module.exports.list = (req, res, next) => {
             .then((genres) => {
                 const query = req.query;
                 const filterDate = {};
-                console.log(query)
+
+                if(req.query.page <= 0) req.query.page = 1;
 
                 const actualPage = req.query.page ? parseInt(req.query.page, 10) : 1;
                 const moviesPerPage = 35;
                 const moviesToSkip = (actualPage - 1) * moviesPerPage;
                 const nextPage = actualPage + 1
+                const prevPage = actualPage - 1
 
 
                 if (req.query.release_date !== '2030') {
@@ -70,7 +75,12 @@ module.exports.list = (req, res, next) => {
                     .sort(sortby)
                     .skip(moviesToSkip).limit(moviesPerPage)
                         .then((movies) => {
-                        res.render('movies/movies', {genres, movies, chosenGenreItem, rate, actualPage, query, nextPage})
+                        return List.find({owner: req.user.id}).limit(4)
+                            .then((listResult) => {
+                                res.render('movies/movies', {genres, movies, chosenGenreItem, rate, actualPage, query, nextPage, prevPage, listResult})
+
+                            })
+
                     })
                 } else {
                     
@@ -78,7 +88,11 @@ module.exports.list = (req, res, next) => {
                     .sort(sortby)
                     .skip(moviesToSkip).limit(moviesPerPage)    
                         .then((movies) => {
-                        res.render('movies/movies', {genres, movies, actualPage, query, nextPage})
+                        return List.find({owner: req.user.id}).limit(4)
+                            .then((listResult) => {
+                                res.render('movies/movies', {genres, movies, actualPage, query, nextPage, prevPage, listResult})
+                                
+                            })
                     })
                 }
             })
@@ -119,15 +133,75 @@ module.exports.favorites = (req, res, next) => {
     const userId = req.session.userId; 
     Genre.find()
     .then((genres) => {
-        return User.findById(userId)
-            .then((user) => {
-                const ids = user.likes;
-                return Movie.find({ _id: { $in: ids } })
-                    .then((favMovies) => {
-                        res.render('movies/movies', {favMovies, genres})
-                    })
+        List.find().limit(4)
+            .then((listResult) => {
+                return User.findById(userId)
+                .then((user) => {
+                    const ids = user.likes;
+                    return Movie.find({ _id: { $in: ids } })
+                        .then((favMovies) => {
+                            res.render('movies/movies', {favMovies, genres, listResult})
+                        })
 
+                })
             })
+        
     })
     .catch(next) 
 } 
+
+module.exports.playList = (req, res, next) => {
+    
+    const listId = req.params.listId; 
+    Genre.find()
+    .then((genres) => {
+        return List.find() 
+            .then((listResult) => {
+                return List.findById(listId)
+                .then((list) => {
+
+                
+                    const listName = list.name
+                    const ids = list.movies;
+
+                    if(ids.length > 0) {
+
+                    return Movie.find({ _id: { $in: ids } })
+                        .then((listMovies) => {         
+                            
+                           
+                            res.render('movies/movies', {genres, listMovies, listName, listResult })
+                    
+
+                        })
+                    } else {
+                        res.render('movies/movies', {genres, listError: 'Empty list', listName, listResult })
+                    }
+
+                })
+                
+            })
+        
+    })
+    .catch(next) 
+} 
+
+module.exports.addToList = (req, res, next) => {
+    
+
+    const movieId = req.body.movieId;
+    const listId = req.body.listId;
+
+    List.findByIdAndUpdate(listId, { $addToSet: { movies: movieId } }, { new: true })
+        .then((list) => {
+            if (!list) {
+                throw new Error('List not found');
+            }
+            res.send({ success: true, list });
+
+        })
+        .catch((error) => {
+            console.error(error);
+            next(error); 
+        });
+};
