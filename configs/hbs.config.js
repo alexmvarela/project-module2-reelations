@@ -19,6 +19,7 @@ hbs.registerHelper('ifEq', function (left, right, options) {
     }
   });
 
+////////////////////
 
   const randomstring = require('randomstring');
 
@@ -29,10 +30,11 @@ hbs.registerHelper('ifEq', function (left, right, options) {
       });
   }
 
-
   hbs.registerHelper('ranStr', function (value, options) {
     return generateRandomString(value)
   })
+
+  //////////////////
 
   hbs.registerHelper('isBtwn', function (first, second , third, options) {
     if (first.toString() >= second.toString() && first.toString() <= third.toString()) {
@@ -92,3 +94,10 @@ hbs.registerHelper('ifEq', function (left, right, options) {
     }
 });
 
+hbs.registerHelper('navActive', (path, match, options) => {
+  return (path === match) ? 'navActive' : '';
+});
+
+hbs.registerHelper('slice', function(arr, start, end) {
+  return arr.slice(start, end);
+});

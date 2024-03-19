@@ -1,447 +1,80 @@
 <main class="catalog-main" >
 
     <aside class="movies-filters">
-        <div class="movies-filters-div">
-             <form id="filters-form"  class="filters-div-catalog" action="/movies" method="GET">
-
-                <p class="filters-p">Genres</p>
-                <select  name="genre" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
-                    <option value="" >All genres</option>
-
-                    {{#each genres as |gen|}}
-                        <option value="{{gen.id}}" {{#if gen.selected}}selected{{/if}}>{{gen.name}}</option>
-                    {{/each}}
-                    
-
-
-                </select>
-                {{#if error}} <p class="red-alert" >Select a genre</p> {{/if}}
-            
-            <p class="filters-p">User review</p>
-            <div class="stars-container">
-                <div class="star-widget">
-                    <input type="radio" name="vote_average" id="rate-5" value="8" {{#ifEq rate '8'}}checked{{/ifEq}} >
-                    <label for="rate-5" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-4" value="6.5"{{#ifEq rate '6.5'}}checked{{/ifEq}}>
-                    <label for="rate-4" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-3" value="5"{{#ifEq rate '5'}}checked{{/ifEq}}>
-                    <label for="rate-3" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-2" value="4"{{#ifEq rate '4'}}checked{{/ifEq}}>
-                    <label for="rate-2" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-1" value="2"{{#ifEq rate '2'}}checked{{/ifEq}}>
-                    <label for="rate-1" class="fas fa-star"></label>
-                </div>
-            </div>
-
-           
-                <p class="filters-p">Decade</p>
-                <input name="release_date" type="range" class="range-input" min="1920" max="2030" step="10" id="customRange3" value="{{#if decade}}{{decade}}{{else}}2030{{/if}}" >
-                <p id="rangeValue" style="color: azure;">
-               {{#ifDec decade '2030'}}{{decade}}{{else}}All decades{{/ifDec}} 
-               </p>    
-            
-                <p class="filters-p">Sort by</p>
-                <select  name="sortby" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
-                    <option value="popularity" >Popularity</option>
-                    <option value="release_date" >Release date</option>
-                    <option value="vote_average" >User reviews</option>
-                    <option value="title" >Alphabetic</option>
-                </select>
-
-                <div class="order-btns">
-                        <input class="order-btn" type="radio" name="order"  id="option5" autocomplete="off" value="-1" checked>
-                        <label class="order-label" for="option5"><i class="fa-solid fa-caret-down"></i></label> 
-                      
-                        <input class="order-btn" type="radio"  name="order"  id="option6" autocomplete="off" value="1">
-                        <label class="order-label" for="option6"><i class="fa-solid fa-caret-up"></i></label>
-                </div>
-            
-            
-            
-            <button class="randomform-btn viewall-btn-movies" name="action" value="viewAll">Search</button>
-            
-        </form >
-
-        <form action="/favorites" method="GET" >
-                    <button class="fav-link" type="submit"><i class="fa-solid fa-heart"></i> Your favorites</button>
-        </form>
-        </div>
-
-        <p>
-
-        <div class="playlist-div d-flex">
-          
-            <a  href="/playlists" class="playlist-link"><i class="fa-solid fa-clapperboard whiteI"></i> Your playlists</a>
-
-            <div class="playlist-group">
-           {{#each listResult as |list|}}
-                <a class="playlist-a" href="/lists/{{list._id}}">{{list.name}}</a>
-            {{/each}}
-            <button class="collaps-list" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-                <i class="fa-solid fa-plus"></i>
-            </button>
-            </p>
-            <div style="collaps-inp">
-                <div class="collapse" id="collapseWidthExample">
-                    <div class="form-createlist">
-                        <div class="form-list">
-                            <input placeholder="Choose name" class="input-list" name="name" type="text" maxlength="15">
-                            <button class="create-list-btn">Add</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <a class="playlist-a" href="/playlists">View all playlists</a>
-        
-        </div>
-        
-
+        {{> moviesPartials/aside}}
     </aside>
-    <section class="movies-catalog" >
 
-       
+    <section class="movies-catalog" >   
+    {{#if movies}}
 
-     {{#if movies}}
-
-                    {{#if actualGen }}
-                        <h2 class="catalog-h2" >{{actualGen.name}}</h2>
-                    {{else}}
-                        {{#if chosenGenreItem}}
-                            <h2 class="catalog-h2">{{chosenGenreItem}}</h2>
-                        {{else}}
-                            
-                            <div class="page-buttons top">
-                                <h2 class="catalog-h2" >All genres</h2>
-                                <div class="">
-                                    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>ç    
-                                    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>ç
-                                </div>
-                             </div>
-                                
-
-                        {{/if}}
-                        
-                    {{/if}}
-        
+            {{#if chosenGenreItem}}
+                <div class="page-buttons top">
+                <h2 class="catalog-h2">{{chosenGenreItem}}</h2>
+                    <div class="">
+                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>   
+                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>
+                    </div>
+                </div>
+            {{else}}         
+                <div class="page-buttons top">
+                <h2 class="catalog-h2" >All genres</h2>
+                    <div class="">
+                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>ç   
+                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>
+                    </div>
+                </div>
+            {{/if}}
         <div class="catalog-page">
-             {{#each movies as |movie|}}
-            
-                <div class="page-results">
-                    <div class="overlay d-flex flex-column">
-                        {{#if ../currentUser}}
-
-                        <button class="addtolist-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePlaylists" aria-expanded="false" aria-controls="collapsePlaylists">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                        
-                        <div style="min-height: 120px;">
-                            <div class="collapse" id="collapsePlaylists">                                
-                                {{#each ../listResult as |list|}}
-                                <button class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
-                                {{/each}}
-                            </div>
-                        </div>
-                            
-                                <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                        <p class="overlay-title" >{{movie.title}}</p>
-                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                        {{/each}}</p>
-                        
-                    </div>
-                    <img class="image-item" src="{{movie.image}}" alt="">
-                    
-                </div>
-
-            {{/each}}
+             {{> moviesPartials/moviesRender}}
         </div>
+
     {{else}}
 
-    {{#if favMovies}}
-
-    <h2 class="catalog-h2"><i class="fa-solid fa-heart"></i> Your favorites</h2>
-
-    <div class="catalog-page">
-             {{#each favMovies as |movie|}}
-            
-                <div class="page-results">
-                    <div class="overlay d-flex flex-column">
-                        {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                        <p class="overlay-title" >{{movie.title}}</p>
-                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                        {{/each}}</p>
-                        
-                    </div>
-                    <img class="image-item" src="{{movie.image}}" alt="">
-                    
-                </div>
-
+    {{#if errors}}
+        <div class=" {{#if errors}}speech left speech-movies{{else}}speech-movies speech left hidden{{/if}}"> 
+            {{#each errors as |error|}}
+                <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; {{error}}</p>
             {{/each}}
+
         </div>
+            {{> moviesPartials/notfound}}
     
-
 
     {{else}}
-    {{#if chosenGenreItem}}
-        <div class="illu1-div d-flex flex-column">
-             <img src="img/Mesa de trabajo 1333@3x.png" class="illu2 illuSmall" alt="">
-             <div class="speech speech-nothing">
-                            <h2>Seems like there is nothing around here</h2>
-            </div>
-         </div>
 
-    {{else}}
-    
-    {{#if listMovies}}
+        {{#if favMovies}}
+            {{> moviesPartials/favorites}}
 
-    
-    <h2 class="catalog-h2"><i class="fa-solid fa-clapperboard whiteI"></i> {{listName}}</h2>
+            {{else}}
 
-    <div class="catalog-page">
-             {{#each listMovies as |movie|}}
-            
-                <div class="page-results">
-                    <div class="overlay d-flex flex-column">
-                        {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                        <p class="overlay-title" >{{movie.title}}</p>
-                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                        {{/each}}</p>
+            {{#if chosenGenreItem}} 
+            {{!-- se ha seleccionado genero pero no hay resultados --}}
+                {{> moviesPartials/notfound}}
+
+            {{else}}
+                
+                {{#if listMovies}}
+                {{> moviesPartials/listMovies}}
+                
+                {{else}}
+
                         
-                    </div>
-                    <img class="image-item" src="{{movie.image}}" alt="">
-                    
-                </div>
-
-            {{/each}}
-     </div>
-    
-    {{else}}
-
-    {{#if listError}}
-
-        <h2 class="catalog-h2"><i class="fa-solid fa-clapperboard whiteI"></i> {{listName}}</h2>
-
-
-    <div class="catalog-errorpage">
-        <div class="illu1-div d-flex flex-column">
-             <img src="/img/Mesa de trabajo 1333@3x.png" class="illu2 illuSmall" alt="">
-             <div class="speech speech-nothing">
-                            <h2>Seems like there is nothing around here</h2>
-            </div>
-         </div>
-    </div>
-    
-
-    {{else}}
+                        {{> moviesPartials/homeCatalog}}
         
-    <h2 class="section-titles">Action</h2>
-    <div class="newContainer">
-        <div class="slider-wrapper">
-             <div class="inter-container">
-                <button class="slide-button prev-slide" id="prev-slide-action"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                {{#each actionResult as |movie|}}
-                    <div class="img-container-works">
-                        <div class="overlay d-flex flex-column">
-                            {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                            <p class="overlay-title">{{movie.title}}</p>
-                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                            {{/each}}</p>
-                                        
-                        </div>
-                        <img class="image-item" src="{{movie.image}}" alt="">        
-                        </div>     
-                {{/each}}
-                </div>
-                <button class="slide-button next-slide-button" id="next-slide-action"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-        <h2 class="section-titles">Comedy</h2>
-    <div class="newContainer">
-        <div class="slider-wrapper">
-             <div class="inter-container">
-                <button class="slide-button prev-slide" id="prev-slide-comedy"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                {{#each comedyResult as |movie|}}
-                    <div class="img-container-works">
-                        <div class="overlay d-flex flex-column">
-                            {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                            <p class="overlay-title">{{movie.title}}</p>
-                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                            {{/each}}</p>
-                                        
-                        </div>
-                        <img class="image-item" src="{{movie.image}}" alt="">        
-                        </div>     
-                {{/each}}
-                </div>
-                <button class="slide-button next-slide-button" id="next-slide-comedy"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-        <h2 class="section-titles">Drama</h2>
-    <div class="newContainer">
-        <div class="slider-wrapper">
-             <div class="inter-container">
-                <button class="slide-button prev-slide" id="prev-slide-drama"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                {{#each dramaResult as |movie|}}
-                    <div class="img-container-works">
-                        <div class="overlay d-flex flex-column">
-                            {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                            <p class="overlay-title">{{movie.title}}</p>
-                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                            {{/each}}</p>
-                                        
-                        </div>
-                        <img class="image-item" src="{{movie.image}}" alt="">        
-                        </div>     
-                {{/each}}
-                </div>
-                <button class="slide-button next-slide-button" id="next-slide-drama"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-        <h2 class="section-titles">Documental</h2>
-    <div class="newContainer">
-        <div class="slider-wrapper">
-             <div class="inter-container">
-                <button class="slide-button prev-slide" id="prev-slide-documental"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                {{#each documentalResult as |movie|}}
-                    <div class="img-container-works">
-                        <div class="overlay d-flex flex-column">
-                            {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                            <p class="overlay-title">{{movie.title}}</p>
-                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                            {{/each}}</p>
-                                        
-                        </div>
-                        <img class="image-item" src="{{movie.image}}" alt="">        
-                        </div>     
-                {{/each}}
-                </div>
-                <button class="slide-button next-slide-button" id="next-slide-documental"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-       <h2 class="section-titles">Horror</h2>
-    <div class="newContainer">
-        <div class="slider-wrapper">
-             <div class="inter-container">
-                <button class="slide-button prev-slide" id="prev-slide-horror"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                {{#each horrorResult as |movie|}}
-                    <div class="img-container-works">
-                        <div class="overlay d-flex flex-column">
-                            {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                            <p class="overlay-title">{{movie.title}}</p>
-                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                            {{/each}}</p>
-                                        
-                        </div>
-                        <img class="image-item" src="{{movie.image}}" alt="">        
-                        </div>     
-                {{/each}}
-                </div>
-                <button class="slide-button next-slide-button" id="next-slide-horror"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-        <h2 class="section-titles">Thriller</h2>
-    <div class="newContainer">
-        <div class="slider-wrapper">
-             <div class="inter-container">
-                <button class="slide-button prev-slide" id="prev-slide-thriller"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                {{#each thrillerResult as |movie|}}
-                    <div class="img-container-works">
-                        <div class="overlay d-flex flex-column">
-                            {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                            <p class="overlay-title">{{movie.title}}</p>
-                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                            {{/each}}</p>
-                                        
-                        </div>
-                        <img class="image-item" src="{{movie.image}}" alt="">        
-                        </div>     
-                {{/each}}
-                </div>
-                <button class="slide-button next-slide-button" id="next-slide-thriller"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
-
-        <h2 class="section-titles">Animation</h2>
-    <div class="newContainer">
-        <div class="slider-wrapper">
-             <div class="inter-container">
-                <button class="slide-button prev-slide" id="prev-slide-animation"><i class="fa-solid fa-chevron-left"></i></button>
-                <div class="image-list">
-                {{#each animationResult as |movie|}}
-                    <div class="img-container-works">
-                        <div class="overlay d-flex flex-column">
-                            {{#if ../currentUser}}
-                                 <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                            {{/if}}
-                            <p class="overlay-title">{{movie.title}}</p>
-                            <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                            {{/each}}</p>
-                                        
-                        </div>
-                        <img class="image-item" src="{{movie.image}}" alt="">        
-                        </div>     
-                {{/each}}
-                </div>
-                <button class="slide-button next-slide-button" id="next-slide-animation"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </div>
-    </div>
+                {{/if}}
+            {{/if}}
+        {{/if}}
     {{/if}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
-    {{/if}}
+{{/if}}
 
  {{#if movies}}
  <div class="page-buttons">
     <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>ç    
     <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>ç
  </div>
-  {{/if}}   
+{{/if}}   
+
+
 
     </section>
 
@@ -452,3 +85,5 @@
 <script src="/scripts/like.js"></script>
 <script src="/scripts/createList.js"></script>
 <script src="/scripts/range.js"></script>
+<script src="/scripts/addToListBtn.js"></script>
+<script src="/scripts/trending.js"></script>

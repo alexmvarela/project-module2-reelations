@@ -1,0 +1,6 @@
+<select name="genre" class="form-genre {{#if error.genre}}invalid-inp{{/if}}" id="inputGroupSelect01">
+    <option value="">All genres</option>
+    {{#each genres as |gen|}}
+        <option value="{{gen.id}}" {{#if gen.selected}}selected{{/if}}>{{gen.name}}</option>
+    {{/each}}
+</select>   

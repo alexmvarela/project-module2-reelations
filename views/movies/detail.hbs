@@ -1,0 +1,158 @@
+
+
+
+<section class="movie-details"  {{#if movie.movie_images}}style="background-image: url('https://image.tmdb.org/t/p/w780{{movie.movie_images.[1].file_path}}');"{{/if}}>
+<div class="movie-details-bg"></div>
+
+<div class="movie-main-info">
+    
+
+<img src="{{movie.image}}" alt="">
+
+
+
+ <div class="movie-text d-flex flex-column">
+    <h2>{{movie.title}}</h2>
+    
+  
+    <div class="movie-details-info">
+          <div class="movie-details1">
+            <div class="d-flex flex-row" >
+            <p class="info-p">Original title:</p> <p class="info-txt">{{movie.original_title}}</p>
+            </div>
+            <div class="d-flex flex-row" >
+                <p class="info-p">Director:</p> <p class="info-txt">{{#each movie.crew}} {{this.name}} &emsp; {{/each}}</p>
+            </div>
+            <div class="d-flex flex-row" >
+                <p class="info-p">Duration:</p> <p class="info-txt">{{movie.runtime}} min</p>
+            </div>
+            <div class="d-flex flex-row" >
+                <p class="info-p">Realase date:</p> <p class="info-txt" >{{movie.release_date}}</p>
+            </div>
+            <div class="d-flex flex-row" >
+                <p class="info-p">Original language:</p> <p class="uppercase-text info-txt" >{{movie.original_language}}</p>
+            </div>
+        </div>
+
+        <div class="movie-details2">
+            <div class="random-stars">
+                    <form action="/vote" method="POST">
+                        <div class="star-widget">
+                            <input  type="radio" name="vote_average" id="rate-5"  value="8" {{#if (isBtwn movie.vote_average '8' '10')}}checked{{/if}}>
+                            <label  for="rate-5" class="fas fa-star"></label>                     
+                            <input type="radio" name="vote_average" id="rate-4" value="6.5" {{#if (isBtwn movie.vote_average '6.5' '8')}}checked{{/if}}>
+                            <label for="rate-4" class="fas fa-star"></label>                           
+                            <input type="radio" name="vote_average" id="rate-3" value="5" {{#if (isBtwn movie.vote_average '5' '6.5')}}checked{{/if}}>
+                            <label for="rate-3" class="fas fa-star"></label>                        
+                            <input type="radio" name="vote_average" id="rate-2" value="4" {{#if (isBtwn movie.vote_average '4' '5')}}checked{{/if}}>
+                            <label for="rate-2" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rate-1" value="2" {{#if (isBtwn movie.vote_average '2' '4')}}checked{{/if}}>
+                            <label for="rate-1" class="fas fa-star"></label>
+                        </div>
+                    </form>
+            </div>
+
+                <p> <span>Average: </span> {{movie.vote_average}}</p></span> 
+                <p><span>Votes: </span> {{movie.vote_count}}</p></span> 
+                        {{#if currentUser}}
+                        <button class="like-btn like-btn-details liked" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+                 <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+        </div>
+
+    </div>
+    <div>
+            <p class="info-p">Overview:</p> <p class="mt-2 info-txt">{{movie.overview}}</p>
+        </div>
+    
+    
+</div>
+</div>
+</section>
+<div class="movie-sec-info">
+
+    <div class="cast">
+        <h2>Main cast</h2>
+        <div class="cast-info" >
+            {{#if movie.cast}}
+            {{#each (slice movie.cast 0 10) as |cast|}}
+
+                
+                <div class="cast-div">
+                    {{#if cast.profile_path}}
+                    <img class="cast-img" src="https://image.tmdb.org/t/p/w154{{cast.profile_path}}" alt="">
+                     {{else}}
+                    <img class="cast-img" src="https://media.istockphoto.com/id/1164822188/vector/male-avatar-profile-picture.jpg?s=612x612&w=0&k=20&c=KPsLgVIwEGdDvf4_kiynCXw96p_PhBjIGdU68qkpbuI=" alt="">
+                     {{/if}}
+                    <div>
+                        <p class="cast-name">{{cast.name}}</p>
+                        <p class="cast-char"> {{cast.character}}</p>
+                    </div>
+                </div>
+                
+            {{/each}}
+            {{else}}
+           
+                <div class="speech left"> 
+                        <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; No cast available</p>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+    <div class="detail-aside">
+    <h2>Images</h2>
+    <div class="image-grid">
+        {{#if movie.movie_images}}
+            {{#each (slice movie.movie_images 0 27) as |image index|}}
+            
+                    <div class="image-container">
+                        <div class="image-overlay"></div>
+                        <img src="https://image.tmdb.org/t/p/w300{{image.file_path}}" alt="Image {{index}}">
+                    </div>
+                
+            {{/each}}   
+        {{else}}
+                 <div class="speech left"> 
+                        <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; No images available</p>
+                </div>
+         {{/if}}
+    </div>
+
+    <h2>Recomendations</h2>
+    <div class="recomendation-grid">
+        {{#if movie.movie_images}}
+            {{#each (slice movie.movie_images 0 27) as |image index|}}
+            
+                    <div class="image-container">
+                        <div class="image-overlay"></div>
+                        <img src="https://image.tmdb.org/t/p/w300{{image.file_path}}" alt="Image {{index}}">
+                    </div>
+                
+            {{/each}}   
+        {{else}}
+                 <div class="speech left"> 
+                        <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; No images available</p>
+                </div>
+         {{/if}}
+    </div>
+    
+</div>
+</div>
+
+
+
+<script src="/scripts/addToListSc.js"></script>
+<script src="/scripts/like.js"></script>
+<script src="/scripts/createList.js"></script>
+<script src="/scripts/addToListBtn.js"></script>
+
+

@@ -6,7 +6,8 @@ const listSchema = new Schema(
     {
         name: {
             type: String,
-            required: [true, 'Playlist name is required']
+            required: [true, 'Playlist name is required'],
+            minLength: 3
         },
         movies: {
             type: [String]

@@ -1,0 +1,44 @@
+    <h2 class="catalog-h2"><i class="fa-solid fa-heart"></i> Your favorites</h2>
+
+    <div class="catalog-page">
+             {{#each favMovies as |movie|}}
+            
+                <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>
+            {{/each}}
+        </div>
+    
+
+
+    

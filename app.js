@@ -4,6 +4,8 @@ const app = express();
 const routes = require('./configs/routes.config');
 
 const bodyParser = require('body-parser');
+const setViewLocals = require('./middlewares/setViewLocals');
+
 
 
 
@@ -43,7 +45,7 @@ app.use((req, res, next) => {
   res.locals.query = req.query;
   next();
 });
-
+app.use(setViewLocals);
 
 
 // APP ROUTES

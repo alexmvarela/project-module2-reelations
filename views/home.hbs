@@ -1,199 +1,133 @@
 
 
 <section class="trending">
-
     <h2 class="section-titles">Most popular movies right now</h2>
     <div class="newContainer">
-    <div class="slider-wrapper">
-
-        <div class="inter-container">
-            <button class="slide-button prev-slide-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
-        <div class="image-list">
-            {{#each movies as |movie|}}
-            
-                <div class="img-container-works">
-                    <div class="overlay d-flex flex-column">
-                        {{#if ../currentUser}}
-                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
-                        {{/if}}
-                        
-                        <p class="overlay-title">{{movie.title}}</p>
-                        <p class="overlay-genre mb-4" >{{#each movie.genre_ids as |id|}}
-                            {{#newGenre id}}  {{/newGenre}}
-                        {{/each}}</p>
-
-        
-                        
-                    </div>
-                    <img class="image-item" src="{{movie.image}}" alt="">
-                    
+        <div class="slider-wrapper">
+            <div class="inter-container">
+                <button class="slide-button prev-slide-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                    {{>moviesPartials/moviesRender}}
                 </div>
-
-
-                
-            {{/each}}
+                <button class="slide-button next-slide-button" id="next-slide"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
         </div>
-        <button class="slide-button next-slide-button" id="next-slide"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-        
     </div>
-</div>
 </section>
-
-
-
 
 <section class="random-movie">
     <div class="random-container">
-    <h2>So, what film are we watching today?</h2>
-    <div class="ran-con-wrp  d-flex">
-        <form id="filters-form"  class="filters-div" action="/random-movie" method="POST">
+        <h2>So, what film are we watching today?</h2>
+        <div class="ran-con-wrp  d-flex">
+            <form id="filters-form"  class="filters-div" action="/random-movie" method="POST">
 
-
-           
                 <p class="filters-p">Genres</p>
-                <select  name="genre" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
-                    <option>Choose genre...</option>
-
-                    {{#each genres as |gen|}}
-                        <option value="{{gen.id}}" {{#if gen.selected}}selected{{/if}}>{{gen.name}}</option>
-                    {{/each}}
-
-
-                </select>
+                {{> misc/genreInp}}
                 {{#if error}} <p class="red-alert" >Select a genre</p> {{/if}}
-            
-            <p class="filters-p">User reviews</p>
-            <div class="stars-container">
-                <div class="star-widget">
-                    <input type="radio" name="vote_average" id="rate-5" value="8" {{#ifEq rate '8'}}checked{{/ifEq}} >
-                    <label for="rate-5" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-4" value="6.5"{{#ifEq rate '6.5'}}checked{{/ifEq}}>
-                    <label for="rate-4" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-3" value="5"{{#ifEq rate '5'}}checked{{/ifEq}}>
-                    <label for="rate-3" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-2" value="4"{{#ifEq rate '4'}}checked{{/ifEq}}>
-                    <label for="rate-2" class="fas fa-star"></label>
-                    <input type="radio" name="vote_average" id="rate-1" value="2"{{#ifEq rate '2'}}checked{{/ifEq}}>
-                    <label for="rate-1" class="fas fa-star"></label>
-                </div>
-            </div>
-            <p class="filters-p">Decade</p>
-            <input name="release_date" type="range" class="range-input" min="1920" max="2030" step="10" id="customRange3" value="{{#if decade}}{{decade}}{{else}}2030{{/if}}" >
-             <p id="rangeValue" style="color: azure;">
-               {{#ifDec decade '2030'}}{{decade}}{{else}}All decades{{/ifDec}}
                 
-               </p>    
-            {{#if currentUser}}      
-            <button class="randomform-btn viewall-btn" type="submit" name="action" value="viewAll">View all</button>
-            {{else}}
-            <button class="randomform-btn viewall-btn" name="action" value="viewAll"><a href="/login">View all</a></button>
-            {{/if}}
-            <button class="randomform-btn random-btn" type="submit" name="action" value="random">Random</button>
-        </form>
+                <p class="filters-p">User reviews</p>
+                {{> misc/starsInp}}
 
-        <div class="movie-info-container d-flex">
+                <p class="filters-p">Decade</p>
+                <input name="release_date" type="range" class="range-input" min="1920" max="2030" step="10" id="customRange3" value="{{#if decade}}{{decade}}{{else}}2030{{/if}}" >
+                <p id="rangeValue" style="color: azure;">
+                {{#ifDec decade '2030'}}{{decade}}{{else}}All decades{{/ifDec}}  
+                </p>   
 
-              
-
-            {{#if getRandom }}
-                    <img src="{{getRandom.image}}" alt="">
-
-                    <div class="movie-text d-flex flex-column">
-                        <h1>{{getRandom.title}}</h1>
-                        <div class="d-flex flex-row" >
-                            <p class="info-p">Original title:</p> <p class="info-txt">{{getRandom.original_title}}</p>
-                        </div>
-                        <div class="d-flex flex-row" >
-                        <p class="info-p">Original language:</p> <p class="uppercase-text info-txt" >{{getRandom.original_language}}</p>
-                        </div>
-                        <div class="" >
-                        <p class="info-p">Overview:</p> <p class="mt-2 info-txt">{{getRandom.overview}}</p>
-                        </div>
-                        <div class="d-flex flex-row" >
-                        <p class="info-p">Realase date:</p> <p class="info-txt" >{{getRandom.release_date}}</p>
-                        </div>
-                    
-                    </div>
-
-            {{else}}
-
-                 {{#if error }}
-               <div class="speech left speech-home">
-                     <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; Select at genre at least</p>
-                </div>
-                {{/if}}
-                        
-
-                {{#ifEq getRandom null}}
-                    <div class="illu1-div d-flex flex-column">
-                        <img src="img/Mesa de trabajo 1333@3x.png" class="illu2" alt="">
-                        <div class="speech speech-nothing">
-                            <h2>Seems like there is nothing around here</h2>
-                        </div>
-                    </div>
+                {{#if currentUser}}      
+                    <button class="randomform-btn viewall-btn" type="submit" name="action" value="viewAll">View all</button>
                 {{else}}
-                    <div class="illu1-div">
+                    <button class="randomform-btn viewall-btn" name="action" value="viewAll"><a href="/login">View all</a></button>
+                {{/if}}
+
+                <button class="randomform-btn random-btn" type="submit" name="action" value="random">Random</button>
+            </form>
+
+            <div class="movie-info-container d-flex">
+                {{#if getRandom }}
+                        <img src="{{getRandom.image}}" alt="">
+
+                        <div class="movie-text d-flex flex-column">
+                            <h1>{{getRandom.title}}</h1>
+                            <div class="d-flex flex-row" >
+                                <p class="info-p">Director:</p> <p class="info-txt">{{#each getRandom.crew}} {{this.name}} &emsp; {{/each}}</p>
+                            </div>
+                            <div class="d-flex flex-row" >
+                                <p class="info-p">Duration:</p> <p class="info-txt">{{getRandom.runtime}} min</p>
+                            </div>
+                            <div class="d-flex flex-row" >
+                                <p class="info-p">Original title:</p> <p class="info-txt">{{getRandom.original_title}}</p>
+                            </div>
+                            <div class="d-flex flex-row" >
+                                <p class="info-p">Original language:</p> <p class="uppercase-text info-txt" >{{getRandom.original_language}}</p>
+                            </div>
+                            <div class="" >
+                                <p class="info-p">Overview:</p> <p class="mt-2 info-txt">{{getRandom.overview}}</p>
+                            </div>
+                            <div class="d-flex flex-row" >
+                                <p class="info-p">Realase date:</p> <p class="info-txt" >{{getRandom.release_date}}</p>
+                            </div>
+                        </div>
+
+                {{else}}
+
+                    {{#if error }}
+                        <div class="speech left speech-home">
+                            <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; Select at genre at least</p>
+                        </div>
+                    {{/if}}
+                            
+
+                    {{#ifEq getRandom null}}
+                        <div class="illu1-div d-flex flex-column">
+                            <img src="img/Mesa de trabajo 1333@3x.png" class="illu2" alt="">
+                            <div class="speech speech-nothing">
+                                <h2>Seems like there is nothing around here</h2>
+                            </div>
+                        </div>
+
+                    {{else}}
+                        <div class="illu1-div">
                             <img src="img/Mesa de trabajo 1@3x.png" class="illu1" alt="">
                         </div>
-                {{/ifEq}}
-                        
-                
-           
-            {{/if}}
-         </div>
+                    {{/ifEq}}
+                                
+                    
         
-        <div class="rate-container" >
-        {{#if getRandom }}
-            <div class="random-stars">
-                <form action="/vote" method="POST">
-                    <div class="star-widget">
-
-                        <button type="submit" {{#if currentUser}}{{else}}disabled{{/if}}>
-                            <input  type="radio" name="vote_average" id="rate-5"  value="8" {{#if (isBtwn getRandom.vote_average '8' '10')}}checked{{/if}}>
-                            <label  for="rate-5" class="fas fa-star"></label>
-                        </button>
-                        
-                        
-                        
-                        <input type="radio" name="vote_average" id="rate-4" value="6.5" {{#if (isBtwn getRandom.vote_average '6.5' '8')}}checked{{/if}}>
-                        <label for="rate-4" class="fas fa-star"></label>
-                        
-                        <input type="radio" name="vote_average" id="rate-3" value="5" {{#if (isBtwn getRandom.vote_average '5' '6.5')}}checked{{/if}}>
-                        <label for="rate-3" class="fas fa-star"></label>
-                        
-                        <input type="radio" name="vote_average" id="rate-2" value="4" {{#if (isBtwn getRandom.vote_average '4' '5')}}checked{{/if}}>
-                        <label for="rate-2" class="fas fa-star"></label>
-                        
-                        <input type="radio" name="vote_average" id="rate-1" value="2" {{#if (isBtwn getRandom.vote_average '2' '4')}}checked{{/if}}>
-                        <label for="rate-1" class="fas fa-star"></label>
-                    </div>
-                </form>
+                {{/if}}
             </div>
-            <p> <span>Average: </span> {{getRandom.vote_average}}</p></span> 
-            <p><span>Votes: </span> {{getRandom.vote_count}}</p></span> 
+            
+            <div class="rate-container" >
+            {{#if getRandom }}
+                <div class="random-stars">
+                    <form action="/vote" method="POST">
+                        <div class="star-widget">
+                            <input  type="radio" name="vote_average" id="rate-5"  value="8" {{#if (isBtwn getRandom.vote_average '8' '10')}}checked{{/if}}>
+                            <label  for="rate-5" class="fas fa-star"></label>                     
+                            <input type="radio" name="vote_average" id="rate-4" value="6.5" {{#if (isBtwn getRandom.vote_average '6.5' '8')}}checked{{/if}}>
+                            <label for="rate-4" class="fas fa-star"></label>                           
+                            <input type="radio" name="vote_average" id="rate-3" value="5" {{#if (isBtwn getRandom.vote_average '5' '6.5')}}checked{{/if}}>
+                            <label for="rate-3" class="fas fa-star"></label>                        
+                            <input type="radio" name="vote_average" id="rate-2" value="4" {{#if (isBtwn getRandom.vote_average '4' '5')}}checked{{/if}}>
+                            <label for="rate-2" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rate-1" value="2" {{#if (isBtwn getRandom.vote_average '2' '4')}}checked{{/if}}>
+                            <label for="rate-1" class="fas fa-star"></label>
+                        </div>
+                    </form>
+                </div>
+                <p> <span>Average: </span> {{getRandom.vote_average}}</p></span> 
+                <p><span>Votes: </span> {{getRandom.vote_count}}</p></span> 
 
 
-            {{#if currentUser}}
-            
-            <button class="like-btn {{#isLiked currentUser.likes getRandom._id}}liked{{/isLiked}}" data-id="{{getRandom._id}}"><i class="fas fa-heart"></i></button>
+                {{#if currentUser}}
+                <button class="like-btn {{#isLiked currentUser.likes getRandom._id}}liked{{/isLiked}}" data-id="{{getRandom._id}}"><i class="fas fa-heart"></i></button>
+                {{/if}}
 
-            
-            
-            {{/if}}
-         {{/if }}
+            {{/if }}
+            </div>
         </div>
-        
-    </div>
-    
-
     </div>
 </section>
-
-
-
-
-
 
 
 
@@ -202,3 +136,4 @@
 <script src="/scripts/range.js"></script>
 <script src="/scripts/scrollform.js"></script>
 <script src="/scripts/trending.js" defer></script>
+<script src="/scripts/addToListBtn.js"></script>

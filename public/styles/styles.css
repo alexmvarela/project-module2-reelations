@@ -18,6 +18,7 @@ body {
     scroll-behavior: smooth;
     font-size: 1.6rem;
     min-height: 100vh;
+    background-color: #0a0a0a;
 }
 
 input {
@@ -42,7 +43,7 @@ h2{
 
 .image-list{
     align-content: center;
-    align-items: c;
+    align-items: center;
 }
 
 .uppercase-text{
@@ -78,18 +79,16 @@ h2{
     display: none;
 }
 
-.slider-wrapper .image-list .image-item{
-    height: 300px;
-    object-fit: cover;
+.image-item{
+    height: 100%;
+    width: 100%;
     flex: 0 0 auto; /* Añade esta línea para ajustar el tamaño de las imágenes */
     transition: ease 0.2s;
 
 
 }
 
-.image-item:hover{
-    transform: scale(1.1);
-}
+
 
 .newContainer {
     max-width: 98vw;
@@ -151,6 +150,7 @@ h2{
     height: 60px; 
     z-index: 1000; 
     backdrop-filter: blur(10px);
+    
 }
 
 .nav-container{
@@ -291,7 +291,11 @@ input[type="search"]::-webkit-search-clear-button {
 
 
 .navitem {
-    margin: 0 30px;
+    margin: 0 10px
+}
+
+.navitem-menu {
+    margin: 0 30px
 }
 
 .profile-btn {
@@ -366,6 +370,12 @@ input[type="search"]::-webkit-search-clear-button {
     font-weight: 700;
 }
 
+.section-titles::before{
+    content: "";
+    border-left: 5px solid #D94A4A;
+    margin-right: 20px;
+}
+
 .img-container-works {
     position: relative;
     transition: transform 0.3s ease;
@@ -401,6 +411,7 @@ input[type="search"]::-webkit-search-clear-button {
     font-size: 2rem !important;
     top: 10px;
     right: 10px;
+    z-index: 101;
   }
   
   .img-container:hover {
@@ -420,7 +431,6 @@ input[type="search"]::-webkit-search-clear-button {
 
 .filters-form{
     width: 20%;
-    ma
 }
 
 
@@ -948,6 +958,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     /* (A2) DIMENSIONS */
     padding: 20px;
     border-radius: 10px;
+    min-width: 240px;
   }
   
   /* (B) USE ::AFTER TO CREATE THE "CALLOUT" */
@@ -955,6 +966,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     display: block; width: 0; content: "";
     border: 15px solid transparent;
   }
+  
    
   .speech.left::after {
     border-right-color:#D94A4A;
@@ -981,6 +993,14 @@ input[type="range"]::-webkit-slider-runnable-track {
   
   .speech.left::after {
     left: -15px; top: calc(50% - 15px);
+  }
+
+  .speech-movies{
+    position: absolute;
+    top: 80px;
+    left: 18%;
+    width: 100%;
+    max-width: 350px;
   }
   
   .login-titles h2{
@@ -1073,6 +1093,12 @@ input[type="range"]::-webkit-slider-runnable-track {
     font-size: 3rem;
  }
 
+ .catalog-h2::before{
+    content: "";
+    border-left: 3px solid #D94A4A;
+    margin-right: 20px;
+}
+
 
  .catalog-h2 .redI{
     color: #D94A4A;
@@ -1143,11 +1169,15 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 .page-results{
     position: relative;
+    height: 300px;
+    width: 200px;
+    
 }
 
-.page-results img{
-    width: 200px;
+.page-results:hover{
+    transform: scale(1.1);
 }
+
 
 .catalog-page{
     margin-top: 40px;
@@ -1275,14 +1305,18 @@ input[type="range"]::-webkit-slider-runnable-track {
     
 }
 
+.like-btn i:hover{
+    -webkit-text-stroke: 2px #D94A4A;
+}
+    
+
 .liked{
     color:#D94A4A;
-    
 }
 
 .like-btn i {
     font-size: 3.2rem;
-    -webkit-text-stroke: 1px #D94A4A;
+    -webkit-text-stroke: 2px white;
 }
 
 /** PAGINATION  **/
@@ -1424,6 +1458,10 @@ footer p{
     z-index: 999;
 }
 
+.addtolist-btn i:hover{
+    color: #D94A4A;
+}
+
 .addtolist-btn i {
     color: white;
     position: absolute;
@@ -1468,9 +1506,288 @@ footer p{
     border: none;
     outline: none;
     color: white;
+    font-size: 1.4rem;
+}
+
+.addtolist-btn-item:hover{
+    color: #D94A4A;
 }
 
 .catalog-errorpage {
     margin: 0;
 }
 
+.detail-a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.collapse-div{
+    position: fixed;
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    background-color: rgba(58, 58, 58, 0.092);
+    padding: 10px 20px 20px 20px;
+    top: 40px;
+    right: 10px;
+    width: 90%;
+    backdrop-filter: blur(19px);
+    border: 1px solid rgba(146, 146, 146, 0.302);
+    
+}
+
+.collapse-div button{
+    text-align: left;
+}
+
+.collapse-div strong{
+    color: #808080;
+    margin-bottom: 10px;
+}
+
+.show {
+    display: flex !important;
+}
+
+.movie-details {
+    position: relative;
+    background-image: url(/img/jeff-pierre-5X5I20O_Vbg-unsplash.jpg); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 120px 100px 120px;
+    background-size: cover;
+    overflow: hidden; 
+}
+
+.movie-details::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0), rgb(0, 0, 0));
+    z-index: 1;
+}
+
+
+
+.movie-main-info{
+    margin-top: 80px;
+    background-color: #151515c6;
+    margin-right: 1%;
+    display: flex;
+    padding-right: 40px;
+    backdrop-filter: blur(10px);
+    z-index: 101;
+
+
+}
+
+.movie-main-info img{
+    margin-right: 40px;
+}
+
+.movie-main-info h2{
+    color: white;    
+    font-size: 4rem;
+    margin: 40px 0;
+}
+
+.movie-main-info h2::before{
+    content: "";
+    border-left: 5px solid #D94A4A;
+    margin-right: 20px;
+}
+
+.movie-details-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie-details2{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-details1{
+
+    width: 50%;
+    height: 100%;
+    padding-right: 15px;
+    border-right: 1px solid rgba(255, 255, 255, 0.453);
+    
+}
+
+.movie-details2 p{
+    color: white;
+    font-size: 1.6rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-details2 span{
+    color: rgb(110, 110, 110);
+    font-size: 1.8rem;
+    margin-right: 5px;
+}
+
+.like-btn-details i{
+    margin-top: 10px;
+    background: none;
+    border: none;
+    position: initial !important; 
+    font-size: 3rem !important;
+    align-self: center;
+}
+
+.movie-details2 .addtolist-btn i{
+    font-size: 3rem;
+    top: 30px;
+}
+
+.movie-details2 .collapse-div{
+
+    background-color: rgba(58, 58, 58, 0.426);
+    padding: 10px 20px 20px 20px;
+    top: 60px;
+    right: 30px;
+    width: 20%;
+    backdrop-filter: blur(19px);
+    border: 1px solid rgba(146, 146, 146, 0.302);
+    
+}
+
+.movie-sec-info {
+    display: flex;
+    height: 2000px;
+    background-color: #0a0a0a;
+    padding: 0 120px;
+}
+
+.cast{
+width: 70%;
+margin-top: 80px;
+background-color: #111  ;
+padding: 0px 80px;
+display: flex;
+flex-direction: column;
+}
+
+.detail-aside{
+width: 30%;
+border-left: 1px solid rgba(255, 255, 255, 0.443);
+margin-top: 80px;
+background-color: #111  ;
+padding: 0 40px;
+
+}
+
+.movie-sec-info h2{
+    color: white;
+    margin: 50px 0;
+    font-size: 3.8rem;
+}
+
+.movie-sec-info h2::before{
+    content: "";
+    border-left: 5px solid #D94A4A;
+    margin-right: 20px;
+}
+
+.cast-div{
+    display: flex;
+    height: 120px;
+    width: 50%;
+    margin: 20px 0 ;
+}
+
+.cast-name{
+    color: white;
+    font-size: 1.6rem;
+}
+
+.cast-char{
+    color: rgb(146, 146, 146);
+    font-size: 1.4rem;
+}
+
+
+
+.cast-img{
+    border-radius: 20px ;
+    width: 100px; 
+    height: 120px; 
+    object-fit: cover;
+    object-position: top;
+}
+
+.cast-div div{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cast-info{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-container{
+    position: relative;
+    width: 100%;
+
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+.image-grid img{
+    width: 100%;
+}
+
+.image-container:hover{
+    transform: scale(1.2);
+    z-index: 999;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.337); /* Capa negra con opacidad */
+}
+
+.image-overlay:hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.337); /* Capa negra con opacidad */
+}
+
+.recomendation-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.recomendation-grid img{
+    width: 100%;
+}

@@ -1,103 +1,120 @@
 const Genre = require('../models/genre.model')
-const Movie = require('../models/movie.model')
+const Movie = require('../models/movies.model')
 const User = require('../models/user.model')
 const mongoose = require('mongoose')
 const List = require('../models/list.model')
+const getFromApi = require('../configs/api.config')
+const createError = ('http-errors');
+
 
 module.exports.list = (req, res, next) => {
 
+    const genres = res.locals.genres;
+
     if (Object.keys(req.query).length === 0 ) {
 
-        const genreQuery = Genre.find();
-        const animationQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [16] }}).limit(35)
-        const actionQuery =  Movie.find({lang: res.locals.lang, genre_ids: { $in: [28] }}).limit(35)
-        const comedyQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [35] }}).limit(35)
-        const thrillerQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [53] }}).limit(35)
-        const horrorQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [27] }}).limit(35)
-        const dramaQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [18] }}).limit(35)
-        const documentalQuery = Movie.find({lang: res.locals.lang, genre_ids: { $in: [99] }}).limit(35)
-        const listQuery = List.find({owner: req.user.id}).limit(4)
+        const animationQuery = Movie.find({lang: res.locals.lang, "genres.id": 16 }).limit(35)
+        const actionQuery =  Movie.find({lang: res.locals.lang, "genres.id":28}).limit(35)
+        const comedyQuery = Movie.find({lang: res.locals.lang, "genres.id":35}).limit(35)
+        const thrillerQuery = Movie.find({lang: res.locals.lang, "genres.id":53}).limit(35)
+        const horrorQuery = Movie.find({lang: res.locals.lang, "genres.id":27}).limit(35)
+        const dramaQuery = Movie.find({lang: res.locals.lang, "genres.id":18}).limit(35)
+        const documentalQuery = Movie.find({lang: res.locals.lang, "genres.id":99}).limit(35)
 
 
-        Promise.all([genreQuery, animationQuery, actionQuery, comedyQuery, thrillerQuery, horrorQuery, dramaQuery, documentalQuery, listQuery])
-            .then(([genres, animationResult, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult, listResult]) => {
-                                
-                    res.render('movies/movies', {animationResult, genres, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult, listResult})
+        Promise.all([ animationQuery, actionQuery, comedyQuery, thrillerQuery, horrorQuery, dramaQuery, documentalQuery ])
+            .then(([ animationResult, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult]) => {
+                res.render('movies/movies', {animationResult, actionResult, comedyResult, thrillerResult, horrorResult, dramaResult, documentalResult})
             })
             .catch(next)
     } else {
         let rate = req.query.vote_average || "0"
 
-        Genre.find()
-            .then((genres) => {
-                const query = req.query;
-                const filterDate = {};
+        const query = req.query;
+        const filterDate = {};
+        const actualPage = req.query.page ? parseInt(req.query.page, 10) : 1;
+        const moviesPerPage = 35;
+        const moviesToSkip = (actualPage - 1) * moviesPerPage;
+        let nextPage = actualPage + 1
+        let prevPage = actualPage - 1
 
-                if(req.query.page <= 0) req.query.page = 1;
+        if (req.query.page <= 0) req.query.page = 1;
 
-                const actualPage = req.query.page ? parseInt(req.query.page, 10) : 1;
-                const moviesPerPage = 35;
-                const moviesToSkip = (actualPage - 1) * moviesPerPage;
-                const nextPage = actualPage + 1
-                const prevPage = actualPage - 1
+            if (req.query.release_date !== '2030') {
+                filterDate.release_date = { $gte: req.query.release_date, $lt: (+req.query.release_date + 9).toString() };
+            } else {
+                filterDate.release_date = { $gte: '1900'}
+            }
+
+            if (!query.vote_average) {
+                query.vote_average = 0
+            }
+
+        
+            const chosenGenre = genres.filter((genre) => genre.id === parseInt(query.genre, 10));    
+            const order = !req.query.order ? -1 : parseInt(req.query.order, 10);
+            const sortby = {};
 
 
-                if (req.query.release_date !== '2030') {
-                    filterDate.release_date = { $gte: req.query.release_date, $lt: (+req.query.release_date + 9).toString() };
-                } else {
-                    filterDate.release_date = { $gte: '1900'}
-                }
+            if (req.query.sortby) 
+                sortby[req.query.sortby] = order;
 
-                if (!query.vote_average) {
-                    query.vote_average = 0
-                }
-
-                const chosenGenre = genres.filter((genre) => genre.id === parseInt(query.genre, 10));    
+            if(query.genre && chosenGenre) {
+                const chosenGenreItem = chosenGenre[0].name
                 
-                const order = !req.query.order ? -1 : parseInt(req.query.order, 10);
-                const sortby = {};
 
-                if (req.query.sortby) 
-                    sortby[req.query.sortby] = order;
+                res.locals.genres.forEach(g => {
+                    if (g.name == chosenGenreItem) {
+                        g.selected = true
+                    }
+                }) 
+                return Movie.find({"genres.id":query.genre, vote_average: { $gte: query.vote_average },
+                    lang: res.locals.lang,
+                    release_date: filterDate.release_date
+                })
+                .sort(sortby)
+                .skip(moviesToSkip).limit(moviesPerPage)
+                    .then((movies) => {
 
-                if(query.genre && chosenGenre) {
-                    const chosenGenreItem = chosenGenre[0].name
-                    genres.forEach(g => {
-                        if (g.name == chosenGenreItem) {
-                            g.selected = true
+                        if (actualPage === 1) {
+                            prevPage = null
                         }
-                    }) 
-                    return Movie.find({genre_ids: {$in: [query.genre]},
-                        vote_average: { $gte: query.vote_average },
-                        lang: res.locals.lang,
-                        release_date: filterDate.release_date
+                        
+                        if (movies.length / moviesPerPage !== 1) {
+                            nextPage = null
+                        }
+                        
+                        if (movies.length !== 0) {
+                            res.render('movies/movies', { movies, chosenGenreItem, rate, actualPage, query, nextPage, prevPage})
+                        }else {
+                            res.render('movies/movies', {query, errors: { movie: 'We do not have any films with these specifications'}})
+                        }
                     })
-                    .sort(sortby)
-                    .skip(moviesToSkip).limit(moviesPerPage)
-                        .then((movies) => {
-                        return List.find({owner: req.user.id}).limit(4)
-                            .then((listResult) => {
-                                res.render('movies/movies', {genres, movies, chosenGenreItem, rate, actualPage, query, nextPage, prevPage, listResult})
+                    .catch(next)
+        } else {
+            
+            return Movie.find({vote_average: { $gte: query.vote_average }, lang: res.locals.lang, release_date: filterDate.release_date }).limit(35)
+            .sort(sortby)
+            .skip(moviesToSkip).limit(moviesPerPage)    
+                .then((movies) => {
 
-                            })
-
-                    })
-                } else {
+                    if (actualPage === 1) {
+                        prevPage = null
+                    }
                     
-                    return Movie.find({vote_average: { $gte: query.vote_average }, lang: res.locals.lang, release_date: filterDate.release_date }).limit(35)
-                    .sort(sortby)
-                    .skip(moviesToSkip).limit(moviesPerPage)    
-                        .then((movies) => {
-                        return List.find({owner: req.user.id}).limit(4)
-                            .then((listResult) => {
-                                res.render('movies/movies', {genres, movies, actualPage, query, nextPage, prevPage, listResult})
-                                
-                            })
-                    })
-                }
-            })
-        .catch(next)
+                    if (movies.length / moviesPerPage !== 1) {
+                        nextPage = null
+                    }
+                    
+                    if (movies.length !== 0) {
+                        res.render('movies/movies', { movies, actualPage, query, nextPage, prevPage})
+                    }else {
+                        res.render('movies/movies', {query, errors: { movie: 'We do not have any films with these specifications'}})
+                    }
+                })
+                .catch(next)
         }
+    }
 }
 
 module.exports.like = (req, res, next) => {
@@ -113,7 +130,7 @@ module.exports.like = (req, res, next) => {
                     })
                     .catch(error => {
                         console.log(error)
-                        res.status(500).send({success: false, error: 'Error al enviar like'})
+                        res.status(500).send({success: false, errors: { like: 'Like error'}})
                     })
             } else {
                 return User.findByIdAndUpdate(userId, { $pull: { likes: objectId } }, { new: true }) 
@@ -122,7 +139,7 @@ module.exports.like = (req, res, next) => {
                     })
                     .catch(error => {
                         console.log(error)
-                        res.status(500).send({success: false, error: 'Error al borrar like'})
+                        res.status(500).send({success: false, errors: { like: 'Like error'}})
                     })
             }
         })
@@ -131,64 +148,43 @@ module.exports.like = (req, res, next) => {
 module.exports.favorites = (req, res, next) => {
     
     const userId = req.session.userId; 
-    Genre.find()
-    .then((genres) => {
-        List.find().limit(4)
-            .then((listResult) => {
-                return User.findById(userId)
-                .then((user) => {
-                    const ids = user.likes;
-                    return Movie.find({ _id: { $in: ids } })
-                        .then((favMovies) => {
-                            res.render('movies/movies', {favMovies, genres, listResult})
-                        })
-
+    User.findById(userId)
+        .then((user) => {
+            const ids = user.likes;
+            return Movie.find({ _id: { $in: ids } })
+                .then((favMovies) => {
+                    if (favMovies.length === 0) {
+                    res.status(400).render('movies/movies', {errors: { fav: 'You do not have favorites yet'}} )
+                    }else{
+                    res.render('movies/movies', {favMovies})
+                    }
                 })
-            })
-        
-    })
-    .catch(next) 
+                .catch(next)
+        })
+        .catch(next) 
 } 
 
 module.exports.playList = (req, res, next) => {
     
     const listId = req.params.listId; 
-    Genre.find()
-    .then((genres) => {
-        return List.find() 
-            .then((listResult) => {
-                return List.findById(listId)
+    List.findById(listId)
                 .then((list) => {
-
-                
                     const listName = list.name
                     const ids = list.movies;
 
                     if(ids.length > 0) {
-
                     return Movie.find({ _id: { $in: ids } })
-                        .then((listMovies) => {         
-                            
-                           
-                            res.render('movies/movies', {genres, listMovies, listName, listResult })
-                    
-
+                        .then((listMovies) => {           
+                            res.render('movies/movies', {listMovies, listName })
                         })
                     } else {
-                        res.render('movies/movies', {genres, listError: 'Empty list', listName, listResult })
+                            res.status(400).render('movies/movies', {errors: { list: 'Empty list'}})
                     }
-
                 })
-                
-            })
-        
-    })
-    .catch(next) 
+                .catch(next) 
 } 
 
 module.exports.addToList = (req, res, next) => {
-    
-
     const movieId = req.body.movieId;
     const listId = req.body.listId;
 
@@ -198,10 +194,18 @@ module.exports.addToList = (req, res, next) => {
                 throw new Error('List not found');
             }
             res.send({ success: true, list });
-
         })
         .catch((error) => {
             console.error(error);
             next(error); 
         });
+};
+
+module.exports.detail = (req, res, next) => {
+    const movieId = req.params.movieId;
+    Movie.findById(movieId)
+        .then(movie => {
+                    res.render('movies/detail', {movie});
+        })
+        .catch(next)
 };

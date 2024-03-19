@@ -28,23 +28,21 @@ router.post('/login', user.doLogin)
 
 router.get('/get-avatar')
 
-
 // PROFILE
 
 router.get('/logout', user.logout);
-
 
 // router.get('/profile', secure.isAuthenticated)
 
 // MOVIES
 
 router.get('/movies', secure.isAuthenticated, movies.list)
+router.get('/movies/:movieId', secure.isAuthenticated, movies.detail)
 
 //LISTS
 
 router.post('/new-list',secure.isAuthenticated, list.create)
 router.get('/lists/:listId', secure.isAuthenticated, movies.playList)
-
 
 router.post('/addto-list',secure.isAuthenticated, movies.addToList )
 
@@ -54,6 +52,5 @@ router.post('/like',secure.isAuthenticated, movies.like)
 router.get('/favorites',secure.isAuthenticated, movies.favorites)
 
 //PAGES
-
 
 module.exports = router;

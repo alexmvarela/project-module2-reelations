@@ -9,7 +9,7 @@ module.exports.create = (req, res, next) => {
 
     List.create(req.body)
         .then((list) => {
-            res.send({ success: true });
+            res.send({ success: true, id: list._id });
         })
         .catch(next)
 

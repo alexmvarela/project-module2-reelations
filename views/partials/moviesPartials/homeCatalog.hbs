@@ -1,0 +1,328 @@
+<h2 class="section-titles">Action</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-action"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each actionResult as |movie|}}
+                    <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-action"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Comedy</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-comedy"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each comedyResult as |movie|}}
+                    <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>    
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-comedy"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Drama</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-drama"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each dramaResult as |movie|}}
+                     <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>       
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-drama"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Documental</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-documental"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each documentalResult as |movie|}}
+                     <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>        
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-documental"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+       <h2 class="section-titles">Horror</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-horror"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each horrorResult as |movie|}}
+                    <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-horror"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Thriller</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-thriller"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each thrillerResult as |movie|}}
+                     <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-thriller"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+        <h2 class="section-titles">Animation</h2>
+    <div class="newContainer">
+        <div class="slider-wrapper">
+             <div class="inter-container">
+                <button class="slide-button prev-slide" id="prev-slide-animation"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="image-list">
+                {{#each animationResult as |movie|}}
+                     <div class="page-results">
+                    <div class="overlay d-flex flex-column">
+                        {{#if ../currentUser}}
+
+                        <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+
+                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                            <strong>Add to list:</strong>                              
+                            {{#each ../listResult as |list|}}
+                                <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
+                            {{/each}}
+                        </div>
+                        
+                            
+                        <button class="like-btn {{#isLiked ../currentUser.likes movie._id}}liked{{/isLiked}}" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
+                        {{/if}}
+
+                        
+                        <a class="detail-a" href="/movies/{{movie._id}}">
+                        </a>
+
+                        <p class="overlay-title" >{{movie.title}}</p>
+                        <p class="overlay-genre mb-4" >
+                        {{#each movie.genres as |genre|}}
+                        {{genre.name}}
+                        {{/each}}</p>
+                        
+                    </div>
+                    <img class="image-item" src="{{movie.image}}" alt="">
+                    
+                </div>     
+                {{/each}}
+                </div>
+                <button class="slide-button next-slide-button" id="next-slide-animation"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>

@@ -1,4 +1,4 @@
-const Movie = require('../models/movie.model')
+const Movie = require('../models/movies.model.js')
 const Genre = require('../models/genre.model.js')
 
 module.exports.home = (req, res, next) => {                
@@ -26,8 +26,6 @@ module.exports.filter = (req, res, next) => {
         filterDate.release_date = { $gte: '1900'}
     }
 
-    // DECIRLE QUE SI NO HA RECIBIDO NINGUN INPUT DE ORDEN, ORDENE POR POPULARIDAD
-
     let rate = req.body.vote_average || "0"
     
     if(req.body.action === 'random') {
@@ -37,10 +35,7 @@ module.exports.filter = (req, res, next) => {
             return Genre.find()
                 .then((genres) => {
 
-
-                    // DENTRO DEL FIND INCLUIR EL SORT SEGUN LA SINTAXIS DE MONGO
-
-                    return Movie.find({ vote_average: { $gte: rate }, genre_ids: { $in: [req.body.genre] }, lang: res.locals.lang, release_date: filterDate.release_date})
+                    return Movie.find({ vote_average: { $gte: rate }, "genres.id":req.body.genre, lang: res.locals.lang, release_date: filterDate.release_date})
                     .then((result) => {
                         return  Genre.findOne( {id: req.body.genre})
                             .then((actualGen) => {
@@ -77,7 +72,7 @@ module.exports.filter = (req, res, next) => {
             return Genre.find()
                 .then((genres) => {
 
-                    return Movie.find({ vote_average: { $gte: rate }, genre_ids: { $in: [req.body.genre] }, lang: res.locals.lang, release_date: filterDate.release_date}).limit(35)
+                    return Movie.find({ vote_average: { $gte: rate }, "genres.id":req.body.genre, lang: res.locals.lang, release_date: filterDate.release_date}).limit(35)
                     .then((result) => {
                         return  Genre.findOne( {id: req.body.genre})
                             .then((actualGen) => {

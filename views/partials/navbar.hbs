@@ -4,12 +4,12 @@
         <a class="navbar-brand" href="/"><img class="navbar-img"  src="/img/logo-1.png" alt=""></a>
         <a class="navbar-brand" href="/"><img class="navbar-img"  src="/img/NEGlogotipo.png" alt=""></a>
          <ul class="navbar-nav navbar-navig">
-            <li class="navitem">
-              <a class="navActive" aria-current="page" href="/">Home</a>
+            <li class="navitem-menu">
+              <a class="{{navActive currentPath '/'}}" aria-current="page" href="/">Home</a>
             </li>
-            <li class="navitem ">
+            <li class="navitem-menu ">
               {{#if currentUser}}
-              <a class="" href="/movies">Movies</a>
+              <a class="{{navActive currentPath '/movies'}}" href="/movies">Movies</a>
               {{/if}}
             </li>
 

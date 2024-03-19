@@ -1,0 +1,67 @@
+<div class="movies-filters-div">
+    <form id="filters-form"  class="filters-div-catalog" action="/movies" method="GET">
+
+        <p class="filters-p">Genres</p>
+
+            {{> misc/genreInp}}      
+
+        <p class="filters-p">User review</p>
+            
+            {{> misc/starsInp}}
+           
+        <p class="filters-p">Decade</p>
+            <input name="release_date" type="range" class="range-input" min="1920" max="2030" step="10" id="customRange3" value="{{#if decade}}{{decade}}{{else}}2030{{/if}}" >
+            <p id="rangeValue" style="color: azure;">
+               {{#ifDec decade '2030'}}{{decade}}{{else}}All decades{{/ifDec}} 
+            </p>    
+
+        <p class="filters-p">Sort by</p>
+        <select  name="sortby" class="form-genre {{#if error}}invalid-inp{{/if}}" id="inputGroupSelect01">
+            <option value="popularity" >Popularity</option>
+            <option value="release_date" >Release date</option>
+            <option value="vote_average" >User reviews</option>
+            <option value="title" >Alphabetic</option>
+        </select>        
+        <div class="order-btns">
+            <input class="order-btn" type="radio" name="order"  id="option5" autocomplete="off" value="-1" checked>
+            <label class="order-label" for="option5"><i class="fa-solid fa-caret-down"></i></label>  
+            <input class="order-btn" type="radio"  name="order"  id="option6" autocomplete="off" value="1">
+            <label class="order-label" for="option6"><i class="fa-solid fa-caret-up"></i></label>
+        </div>
+        
+        <button class="randomform-btn viewall-btn-movies" name="action" value="viewAll">Search</button>
+            
+    </form >
+
+    <form action="/favorites" method="GET" >
+        <button class="fav-link" type="submit"><i class="fa-solid fa-heart"></i> Your favorites</button>
+    </form>
+
+</div>
+
+<div class="playlist-div d-flex">
+    <a  href="/playlists" class="playlist-link"><i class="fa-solid fa-clapperboard whiteI"></i> Your playlists</a>
+    <div class="playlist-group">
+
+        <div class="playlist-group-ul d-flex flex-column">
+            {{#each listResult}}
+            <a class="playlist-a" href="/lists/{{this._id}}">{{this.name}}</a>
+            {{/each}}
+        </div>
+        <button class="collaps-list" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+
+        <div style="collaps-inp">
+            <div class="collapse" id="collapseWidthExample">
+                <div class="form-createlist">
+                    <div class="form-list">
+                        <input placeholder="Choose name" class="input-list" name="name" type="text" maxlength="15" minlength="3">
+                        <button class="create-list-btn">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="playlist-a" href="/playlists">View all playlists</a>        
+</div>

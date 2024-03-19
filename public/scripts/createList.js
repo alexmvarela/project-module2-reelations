@@ -10,7 +10,7 @@ $(document).ready(function () {
             data: { name: inputValue },
             success: function (data) {
                 $input.val('');
-                let $newListItem = $('<li>').text(inputValue);
+                let $newListItem = $('<a>').text(inputValue).addClass('playlist-a').attr('href', `/lists/${data.id}`);
                 $('.playlist-group-ul').append($newListItem);
             }
         });
