@@ -27,6 +27,8 @@ module.exports.filter = (req, res, next) => {
     }
 
     let rate = req.body.vote_average || "0"
+
+    console.log(rate)
     
     if(req.body.action === 'random') {
         Movie.find({lang: res.locals.lang}).limit(15)

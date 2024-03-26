@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const List = require('../models/list.model')
 const getFromApi = require('../configs/api.config')
 const createError = ('http-errors');
+const Review = require('../models/review.model')
 
 
 module.exports.list = (req, res, next) => {
@@ -107,7 +108,7 @@ module.exports.list = (req, res, next) => {
                     }
                     
                     if (movies.length !== 0) {
-                        res.render('movies/movies', { movies, actualPage, query, nextPage, prevPage})
+                        res.render('movies/movies', { movies, rate, actualPage, query, nextPage, prevPage})
                     }else {
                         res.render('movies/movies', {query, errors: { movie: 'We do not have any films with these specifications'}})
                     }
@@ -169,13 +170,12 @@ module.exports.playList = (req, res, next) => {
     const listId = req.params.listId; 
     List.findById(listId)
                 .then((list) => {
-                    const listName = list.name
                     const ids = list.movies;
 
                     if(ids.length > 0) {
                     return Movie.find({ _id: { $in: ids } })
-                        .then((listMovies) => {           
-                            res.render('movies/movies', {listMovies, listName })
+                        .then((listMovies) => {        
+                            res.render('movies/movies', {listMovies, list })
                         })
                     } else {
                             res.status(400).render('movies/movies', {errors: { list: 'Empty list'}})
@@ -203,9 +203,44 @@ module.exports.addToList = (req, res, next) => {
 
 module.exports.detail = (req, res, next) => {
     const movieId = req.params.movieId;
-    Movie.findById(movieId)
+
+    let sortBy 
+    let sortByDate = false;
+    let sortByRate = false;
+
+    if(req.query.sortBy == "sortRate") {
+        Movie.findById(movieId)
         .then(movie => {
-                    res.render('movies/detail', {movie});
+            return Review.find({"movie_id": movie.id}).sort({rating: -1})
+                .populate('owner')
+                .then((revs) => {
+                    revs.map((rev) => {
+                        rev.content = rev.content.replace(/\r?\n/g, '<br>')
+                    })
+                    let sortByRate = true;
+                    return res.render('movies/detail',{movie, revs, sortByDate, sortByRate});
+                    
+                })
         })
         .catch(next)
+    }else {
+        Movie.findById(movieId)
+        .then(movie => {
+            return Review.find({"movie_id": movie.id}).sort({createdAt: -1}).sort({created_at: -1})
+                .populate('owner')
+                .then((revs) => {
+                    revs.map((rev) => {
+                        rev.content = rev.content.replace(/\r?\n/g, '<br>')
+                    })
+                    let sortByDate = true;
+                    return res.render('movies/detail',{movie, revs, sortByDate, sortByRate});
+                    
+                })
+        })
+        .catch(next)
+    }
+
+    console.log(sortBy)
+    
+    
 };

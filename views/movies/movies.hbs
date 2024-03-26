@@ -11,16 +11,14 @@
                 <div class="page-buttons top">
                 <h2 class="catalog-h2">{{chosenGenreItem}}</h2>
                     <div class="">
-                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>   
-                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>
+                        {{> misc/pageBtns}}
                     </div>
                 </div>
             {{else}}         
                 <div class="page-buttons top">
-                <h2 class="catalog-h2" >All genres</h2>
+                <h2 class="catalog-h2" >{{#if searchTitle}}Search results for: {{searchTitle}}{{else}}All genres{{/if}}</h2>
                     <div class="">
-                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>ç   
-                         <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>
+                         {{> misc/pageBtns}}
                     </div>
                 </div>
             {{/if}}
@@ -58,9 +56,9 @@
                 
                 {{else}}
 
+
                         
                         {{> moviesPartials/homeCatalog}}
-        
                 {{/if}}
             {{/if}}
         {{/if}}
@@ -69,8 +67,7 @@
 
  {{#if movies}}
  <div class="page-buttons">
-    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{prevPage}}">Prev page</a>ç    
-    <a class="page-btn" href="http://localhost:3000/movies?genre={{query.genre}}&vote_average={{query.vote_average}}&release_date={{query.release_date}}&sortby={{query.sortby}}&order={{query.order}}&action=viewAll&page={{nextPage}}">Next Page</a>ç
+    {{> misc/pageBtns}}
  </div>
 {{/if}}   
 
@@ -80,7 +77,7 @@
 
 </main>
 
-
+<script src="/scripts/deleteFromList.js"></script>
 <script src="/scripts/addToListSc.js"></script>
 <script src="/scripts/like.js"></script>
 <script src="/scripts/createList.js"></script>

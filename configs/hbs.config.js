@@ -37,51 +37,53 @@ hbs.registerHelper('ifEq', function (left, right, options) {
   //////////////////
 
   hbs.registerHelper('isBtwn', function (first, second , third, options) {
-    if (first.toString() >= second.toString() && first.toString() <= third.toString()) {
-      return true
+    if (first >= second && first <= third) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
     }
   });
 
   hbs.registerHelper('newGenre', function (id,  options) {
 
     switch (id) {
-      case 28:
+      case "28":
           return "Action";
-      case 35:
+      case "35":
           return "Comedy";
-      case 80:
+      case "80":
           return "Crime";
-      case 99:
+      case "99":
           return "Documentary";
-      case 18:
+      case "18":
           return "Drama";
-      case 16:
+      case "16":
           return "Animation";
-      case 12:
+      case "12":
           return "Adventure";
-      case 36:
+      case "36":
           return "History";
-      case 9648:
+      case "9648":
           return "Mystery";
-      case 10402:
+      case "10402":
           return "Music";
-      case 27:
+      case "27":
           return "Horror";
-      case 10749:
+      case "10749":
           return "Romance";
-      case 878:
+      case "878":
           return "Science Fiction";
-      case 10770:
+      case "10770":
           return "TV Movie";
-      case 53:
+      case "53":
           return "Thriller";
-      case 37:
+      case "37":
           return "Western";
-      case 10752:
+      case "10752":
           return "War";
-      case 10751:
+      case "10751":
           return "Family";
-      case 14:
+      case "14":
           return "Fantasy";
     }
   })
@@ -100,4 +102,16 @@ hbs.registerHelper('navActive', (path, match, options) => {
 
 hbs.registerHelper('slice', function(arr, start, end) {
   return arr.slice(start, end);
+});
+
+hbs.registerHelper('grt', function(first, second, options) {
+  if (first >= second) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+})
+
+hbs.registerHelper('arrayLength', function(array) {
+  return array.length;
 });

@@ -7,7 +7,7 @@ const listSchema = new Schema(
         name: {
             type: String,
             required: [true, 'Playlist name is required'],
-            minLength: 3
+            minlength: [3, 'List name is not long enough: At least 3 chars']
         },
         movies: {
             type: [String]

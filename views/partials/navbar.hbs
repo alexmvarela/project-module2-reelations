@@ -22,31 +22,32 @@
      
     <div class="nav-container-menu" id="navbarSupportedContent">   
          <div class="navitem dropdown">
-              <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-eye"></i>
-              </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
         </div>
        <div class="navitem dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{#ifEq lang 'EN' }}<img class="flag-btn" src="/img/united-kingdom.png" alt="">{{/ifEq}}
                 {{#ifEq lang 'ES' }}<img class="flag-btn" src="/img/spain.png" alt=""> {{/ifEq}}
               </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu flex-column">
                   <a class="nav-link d-flex" href="/lang/ES"><img class="flag-btn" src="/img/spain.png" alt=""><p> ES </p></a>
                   <a class="nav-link d-flex" href="/lang/EN"><img class="flag-btn" src="/img/united-kingdom.png" alt=""><p> EN </p></a>
                 </ul>
         </div> 
-      <form class="d-flex search-form" role="search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input class="text-inp-search" type="search" placeholder="Search" aria-label="Search">
-        <button class="text-btn-search" type="submit">Search</button>
-      </form>
+
+          <form action="/search-movie" method="POST">
+            <div class="search-form">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input name="title" class="text-inp-search" type="text" id="searchMovies" placeholder="Search a movie">
+                  </div>
+          <div id="result" class="hidden">
+            <button  name="action" value="searchAll" id="searchLink" type="submit">View all results</button>
+          </div>
+          </form>
+        
+
+          
+          
+  
       
       
 
@@ -65,3 +66,6 @@
     </div>
   </div>
 </nav>
+
+
+<script src="/scripts/searchBar.js"></script>

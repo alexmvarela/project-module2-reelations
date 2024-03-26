@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleButtons = document.querySelectorAll('.addtolist-btn');
     const collapsePlaylists = document.querySelectorAll('.collapse-div');
     const addtolist = document.querySelectorAll(".addtolist-btn-item")
+    
 
     toggleButtons.forEach(function(toggleButton, index) {
         toggleButton.addEventListener('click', function(event) {
@@ -28,5 +29,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-
-});
+})

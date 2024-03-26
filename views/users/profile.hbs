@@ -1,0 +1,451 @@
+<div class="profile-page">
+    <section class="profile">
+    <div class="profile-side">
+        
+        <div class="profile-img">
+            <img class="profile-avt" style="background-color: {{currentUser.bgcolor}};" src="{{currentUser.avatar}}" alt="">
+            <button class="main-btn"> <a class=" {{#if showEdit}} {{else}} {{#if showPlaylists}} {{else}} {{#if showReviews}} {{else}}active{{/if}}{{/if}}{{/if}}" href="/profile-info">Profile info</a></button>
+            <button class="main-btn " > <a class="{{#if showEdit}} active {{/if}}" href="/edit-profile">Edit profile</a></button>
+            
+        </div>
+
+        <div class="profile-options">
+
+            
+            <a  href="/favorites" class="playlist-link-profile"><i class="fa-solid fa-heart red-alert "></i> Your favorites</a>
+            <a  href="/playlists" class="playlist-link-profile {{#if showPlaylists}}active{{/if}}"><i class="fa-solid fa-clapperboard whiteI"></i> Your playlists</a>
+            <a class="playlist-link-profile {{#if showReviews}}active{{/if}}" href="/profile-reviews?owner={{currentUser._id}}"><i class="fa-solid fa-message"></i> Your reviews</a>
+        </div>
+
+        <div class="profile-acc">
+            <button  class="main-btn" > <a href="/logout">Log out</a></button>
+            <button class="main-btn red-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">delete account</button>
+        </div>
+
+
+    </div>
+
+    <div class="profile-content">
+
+        
+
+        {{#if showEdit}}
+
+        <div class="main-profile-edit">
+
+        <h2 class="section-titles profile-h2 mb-4">Edit profile</h2>
+
+        <form action="/edit-profile" method="POST">
+
+            <div class="edit-avt">
+                <div class="kitten-img" style="background-color: {{currentUser.bgcolor}};">
+                    <img id="kitImg-profile"  src="{{currentUser.avatar}}" alt="">
+
+                </div>
+
+                <div class="gen-avt">
+                    <button onclick="generateAvatar()" class="recharge-btn" name="suAction" value="getAvt" type="button"><i class="fa-solid fa-arrows-rotate"></i></button>
+                </div>
+
+                <div class="rech-div d-flex flex-column align-items-center ">
+                    <div class="color-btn-div d-flex rech-div-profile">
+                        <div class="color-btn yellow-btn" onclick="changeColor('#F2F080')"></div>
+                        <div class="color-btn green-btn" onclick="changeColor('#B5F587')"></div>
+                        <div class="color-btn blue-btn" onclick="changeColor('#90CBF0')"></div>
+                        <div class="color-btn pink-btn" onclick="changeColor('#F09294')"></div>
+                        <div class="color-btn purple-btn" onclick="changeColor('#D2A4DB')"></div>
+                        <input type="hidden" name="bgcolor" id="bgColorInput" value="{{currentUser.bgcolor}}"> 
+                        <input type="hidden" name="avatar" id="avatarInput" value="{{currentUser.avatar}}">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class=" d-flex align-items">
+
+                <div class="prof-inp-col1">
+                    <div class="signin-inp">
+                        <p class="prof-inp-label">Name: </p>
+                        <i class="inp-icon fa-regular fa-face-smile"></i>
+                        <input placeholder="Name" value="{{currentUser.name}}" type="text" name="name" id="nameinp">
+                    </div>
+                    <div class="signin-inp">
+                        <p class="prof-inp-label">Surname: </p>
+                        <i class="inp-icon fa-solid fa-circle-info"></i>
+                        <input placeholder="Surname" value="{{currentUser.surname}}" type="text" name="surname" id="snameinp">
+                    </div>
+                   
+                    <div class="signin-inp">
+                        <p class="prof-inp-label">E-mail: </p>
+                        <i class="inp-icon fa-solid fa-envelope"></i>
+                        <input placeholder="E-mail" value="{{currentUser.email}}" type="email" name="email" id="emailinp">
+                    </div>
+                </div>
+
+       
+                
+            </div>
+            <div class="signin-inp ml-0">
+                    <p class="prof-inp-label">Change password: </p>
+                    <i class="inp-icon fa-solid fa-lock"></i>
+                    <input placeholder="Password" type="password" name="password" id="pswinp">
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button  class="main-btn red-btn edit-prof-btn" name="suAction" value="signup" type="submit">Edit</button>
+            </div>
+
+        
+    </form>
+
+        </div>
+
+        {{else}}
+
+            {{#if showPlaylists}}
+
+            <div class="main-profile-playlists">
+
+                <h2 class="section-titles profile-h2 mb-4">Playlists</h2>
+
+                <div class="prof-playlist-div">
+                    {{!-- CADA LISTA DEL EACH --}}
+
+                    {{#each lists as |list|}}
+                        <div class="prof-playlist">
+                        <div class="prof-playlist-inner-{{list._id}} prof-playlist-inner">
+                            <a href="/lists/{{list._id}}"> {{list.name}}</a>
+
+                            <div class="prof-play-btns">
+
+                                <button type="" class="trash-btn" data-bs-toggle="modal" data-bs-target="#deletePlaylistModal-{{list._id}}">  <i class="fa-solid fa-trash-can"></i></button>
+
+                                <button id="{{list._id}}" class="edit-btn">  <i class="fa-solid fa-pen-to-square"></i></button>
+                            </div>
+                        </div> 
+                        
+                        <div id="edit-playlist-{{list._id }}" class="prof-playlist-inner hidden"> 
+                        <input class="input-edit-playlist" placeholder="New name..." type="text">
+
+                            <div class="prof-play-btns">
+                                
+                                    <button id="cancel-{{list._id}}" type="submit" class="cancel-edit-btn">  <i class="fa-solid fa-xmark"></i></i></button>
+                                
+                                    <button type="submit" class="trash-btn">  <i class="fa-solid fa-check"></i></button>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    {{/each}}
+
+                    {{#if errors.list}}
+                    <div class="d-flex flex-column">
+                        <h2 class="error-pl-h2">Seems like there is nothing around here</h2>
+                        <img src="img/Mesa de trabajo 1333@3x.png" class="illu1 justify-self-end" alt="">
+                    </div>
+                        
+                    {{/if}}
+                    
+                   
+                    
+                    
+                    
+
+                    
+                </div>
+
+            </div>
+
+            {{else}}
+                {{#if showReviews}}
+
+                    
+        <div class="main-profile-reviews">
+            <h2 class="section-titles profile-h2 mb-8">Your reviews</h2>
+
+            {{#each reviews as |rev|}}
+            
+            <div id="edit-review-{{rev._id}}" class="edit-review hidden">
+                    <form id="editForm" action="/edit-review/{{rev._id}}" method="POST">
+
+                        <div class="rev-userinfo">
+                                <div class="info-rev d-flex">
+
+                                <img class="review-avt" style="background-color: {{../currentUser.bgcolor}};" src="{{../currentUser.avatar}}" alt="">
+                                <a class="rev-name" href="">{{../currentUser.username}}</a>
+
+                            
+                                </div>
+                                 <div class="stars-container" id="stars-container-{{rev._id}}">
+                                    <div class="star-widget">
+                                    <input type="radio" name="rating" id="rate-5r{{rev._id}}" value="9" {{#isBtwn rev.rating 9 10}}checked{{/isBtwn}}>
+                                    <label for="rate-5r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-4r{{rev._id}}" value="7"{{#isBtwn rev.rating 7 9}}checked{{/isBtwn}}>
+                                    <label for="rate-4r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-3r{{rev._id}}" value="5"{{#isBtwn rev.rating 5 7}}checked{{/isBtwn}}>
+                                    <label for="rate-3r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-2r{{rev._id}}" value="3"{{#isBtwn rev.rating 3 5}}checked{{/isBtwn}}>
+                                    <label for="rate-2r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-1r{{rev._id}}" value="1"{{#isBtwn rev.rating 1 3}}checked{{/isBtwn}}>
+                                    <label for="rate-1r{{rev._id}}" class="fas fa-star"></label>
+
+                                    <input class="hidden" type="text" name="author" value="{{../currentUser.username}}">
+                                    <input class="hidden" type="number" name="movie_id" value="{{../movie.id}}">
+                                    <input class="hidden" type="text" name="movieObjectId" value="{{../movie._id}}">
+                                    <input class="hidden" type="text" name="owner" value="{{../currentUser._id}}">
+                                    <input type="hidden" id="contentEditInput" name="content" value="">
+
+                                 </div>
+                                </div>
+                                        
+                                    
+                        </div>
+                    
+                        <div class="review-inputs">
+                            <span id="contentEdit" class="textarea" role="textbox" contenteditable>{{rev.content}}</span></p>
+
+                            <div class="align-self-end">
+                                <button type="button" class=" send-edit-btn cancel-edit-btn" id="cancel-{{rev._id}}">Cancel</button>
+                                <button class="send-edit-btn" type="submit" onclick="editReview()">Edit</button>
+                            </div>
+                            
+
+                        </div>
+                    </form>
+            </div>
+
+            <div id="review-{{rev._id}}" class="review review-profile">
+                 
+
+                <div class="rev-userinfo rev-userinfo-{{rev._id}}">
+                    
+                    <div class="info-rev d-flex ">
+                        {{#if rev.owner.avatar }}
+                        <img class="review-avt" style="background-color: {{rev.owner.bgcolor}};" src="{{rev.owner.avatar}}" alt="">
+                        {{else}}
+                        <img class="review-avt" style="background-color: #ffffff;"  src= "https://robohash.org/ecKARbAyhJ?set=set4" alt="">
+                        {{/if}}
+                        <a class="rev-name" href="/profile">{{rev.author}}</a>
+                    </div>
+                    
+            
+                    <div class="rev-info-right">
+                        <div class="crud-div">
+                        {{#ifEq ../currentUser.username rev.author }}
+                            <button type="" class="trash-btn" data-bs-toggle="modal" data-bs-target="#deletePlaylistModal-{{rev._id}}">  <i class="fa-solid fa-trash-can"></i></button>
+
+                           <a class="edit-btn-a" href="/movies/{{rev.movie._id}}#revH2"> <button  class="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button></a>
+
+                            
+                        {{/ifEq}}
+                    </div>
+                    
+
+                   
+                    </div>
+                    
+                
+
+
+                    
+                </div>
+
+            
+                    <div class="review-movie">
+                        <a  href="/movies/{{rev.movie._id}}">
+                             <div class="d-flex">
+                             <img src="{{rev.movie.image}}" alt="">
+                            <div class="rev-prof-label"> <p>Movie title:</p> <span>{{rev.movie.title}}</span></div>
+                        </div>
+                       
+
+                         <div class="stars-container">
+                            <div class="star-widget">
+                                <span class="star"><i class="fas fa-star  {{#grt rev.rating 1}}rev-star-check{{/grt}}"></i> </span> 
+                                <span class="star"><i class="fas fa-star  {{#grt rev.rating 3}}rev-star-check{{/grt}}"></i> </span>
+                                <span class="star"><i class="fas fa-star  {{#grt rev.rating 5}}rev-star-check{{/grt}}"></i> </span>
+                                <span class="star"><i class="fas fa-star  {{#grt rev.rating 7}}rev-star-check{{/grt}}"></i> </span>
+                                <span class="star"><i class="fas fa-star  {{#grt rev.rating 9}}rev-star-check{{/grt}}"></i> </span>
+                                
+                                
+                                
+                                
+                            </div>
+                        </div>
+                        </a>
+
+                       
+                    </div>
+                    
+            
+             
+
+                <div class="rev-content rev-content-{{rev._id}}">
+                    <p>{{{rev.content}}}</p>
+                    <p class="date-p"> <br> Published:  {{#if rev.updatedAt}} {{rev.updatedAt}} {{else}}{{rev.created_at}}{{/if}}</p>
+                </div>
+                <div class="separator"></div>
+            </div>
+            {{/each}}
+        </div>
+
+         {{#if errors.review}}
+                    <div class="d-flex flex-column">
+                        <h2 class="error-pl-h2">Seems like there is nothing around here</h2>
+                        <img src="img/Mesa de trabajo 1333@3x.png" class="illu1 justify-self-end" alt="">
+                    </div>
+                        
+                    {{/if}}
+
+                {{else}}
+
+                <div class="main-profile-info">
+                    <h2 class="section-titles profile-h2">Profile info</h2>
+
+                    <img class="profile-avt-cont" style="background-color: {{currentUser.bgcolor}};" src="{{currentUser.avatar}}" alt="">
+
+                    <div class="profile-label"> <p>Full name:</p> <span>{{currentUser.name}} {{currentUser.surname}}</span></div>
+                    <div class="profile-label"><p>Username:</p> <span>{{currentUser.username}}</span></div>
+                    <div class="profile-label"><p>E-mail:</p> <span>{{currentUser.email}}</span></div>
+
+                    <div class="profile-label"><p>Voted movies:</p> <span>{{#arrayLength currentUser.voted_movies}} {{/arrayLength}}</span></div>
+                    <div class="profile-label"><p>Liked movies:</p> <span>{{#arrayLength currentUser.likes}} {{/arrayLength}}</span></div>
+                    <div class="profile-label"><p>Color:</p> <div class="color-profile" style="background-color: {{currentUser.bgcolor}};"></div></div>
+
+                </div>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+        
+
+       
+
+
+
+  
+
+
+        </div>
+       
+
+
+    </div>
+    
+
+
+
+    </section>
+</div>
+
+<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog-profile modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <p>Delete accout</p>
+         <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+
+        <p>Are you sure you want to delete this account?</p>
+        <form class="d-flex flex-column" action="/delete-account" method="post">
+            <input class="hidden" type="text" name="delUserId" value="{{currentUser._id}}">
+            <button type="submit" class="vote-btn">Delete</button>
+        </form>
+      </div>
+      <div class="modal-footer d-none">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- DELETE PLAYLISTS MODAL --}}
+
+                    {{#each lists as |list|}}
+                    <div class="modal" id="deletePlaylistModal-{{list._id}}" tabindex="-1" aria-labelledby="deletePlaylistModal-{{list._id}}" aria-hidden="true">
+                    <div class="modal-dialog-profile modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header ">
+                            <p>Delete {{list.name}}</p>
+                            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <p>Are you sure you want to delete this Playlist?</p>
+
+                            <form class="d-flex" action="/delete-playlist" method="post">
+                                <input class="hidden" type="text" name="listId" value="{{list._id}}">
+                                <button type="submit" class="vote-btn ">Delete</button>
+                            </form>
+                            
+                        </div>
+                        <div class="modal-footer d-none">
+                            
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    {{/each}}
+
+                    {{!-- DELETE REVIEW MODAL --}}
+
+                    {{#each reviews as |rev|}}
+                    <div class="modal" id="deletePlaylistModal-{{rev._id}}" tabindex="-1" aria-labelledby="deletePlaylistModal-{{rev._id}}" aria-hidden="true">
+                    <div class="modal-dialog-profile modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header ">
+                            <p>Delete review</p>
+                            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <p>Are you sure you want to delete this Review?</p>
+
+                            <form action="/delete-rev-prof/{{rev._id}}" method="post">
+                                <input class="hidden" type="text" name="movieObjectId" value="{{../movie._id}}">
+                                 <button type="submit" class="vote-btn ">Delete</button>
+
+                            </form>
+                            
+                        </div>
+                        <div class="modal-footer d-none">
+                            
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    {{/each}}
+
+
+    <!-- (A) SPEECH BUBBLES -->
+
+        <div class=" {{#if errors}}speech left speech-profile{{else}}speech-profile speech left hidden{{/if}}"> 
+        
+            {{#each errors as |error|}}
+                <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; {{error}}</p>
+            {{/each}}
+        
+        </div>
+
+<script>
+    function generateAvatar() {
+
+        const random = Math.random().toString(36).substring(2,12)
+        const newAvatarUrl = "https://robohash.org/" + random + "?set=set4";
+
+        document.getElementById('kitImg-profile').src = newAvatarUrl;
+        document.getElementById('avatarInput').value = newAvatarUrl;
+    }
+</script>
+
+<script>
+    function changeColor(color) {
+         document.getElementById('bgColorInput').value = color;
+         document.querySelector('.kitten-img').style.backgroundColor = color;
+    }
+</script>
+
+<script src="/scripts/editPlaylist.js"></script>
+

@@ -9,9 +9,16 @@ $(document).ready(function () {
             url: '/new-list',
             data: { name: inputValue },
             success: function (data) {
-                $input.val('');
-                let $newListItem = $('<a>').text(inputValue).addClass('playlist-a').attr('href', `/lists/${data.id}`);
-                $('.playlist-group-ul').append($newListItem);
+                if (data.success) {
+                    // Manejar el éxito de la solicitud
+                    $input.val('');
+                    let $newListItem = $('<a>').text(inputValue).addClass('playlist-a').attr('href', `/lists/${data.id}`);
+                    $(".collapse-div").append($newListItem);
+                    $('.playlist-group-ul').append($newListItem);
+                } else {
+                    console.error('La solicitud no se completó correctamente:', data);
+                }
+                
             }
         });
     });

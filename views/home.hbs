@@ -73,7 +73,7 @@
 
                     {{#if error }}
                         <div class="speech left speech-home">
-                            <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; Select at genre at least</p>
+                            <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; Select one genre at least</p>
                         </div>
                     {{/if}}
                             
@@ -102,17 +102,22 @@
                 <div class="random-stars">
                     <form action="/vote" method="POST">
                         <div class="star-widget">
-                            <input  type="radio" name="vote_average" id="rate-5"  value="8" {{#if (isBtwn getRandom.vote_average '8' '10')}}checked{{/if}}>
-                            <label  for="rate-5" class="fas fa-star"></label>                     
-                            <input type="radio" name="vote_average" id="rate-4" value="6.5" {{#if (isBtwn getRandom.vote_average '6.5' '8')}}checked{{/if}}>
-                            <label for="rate-4" class="fas fa-star"></label>                           
-                            <input type="radio" name="vote_average" id="rate-3" value="5" {{#if (isBtwn getRandom.vote_average '5' '6.5')}}checked{{/if}}>
-                            <label for="rate-3" class="fas fa-star"></label>                        
-                            <input type="radio" name="vote_average" id="rate-2" value="4" {{#if (isBtwn getRandom.vote_average '4' '5')}}checked{{/if}}>
-                            <label for="rate-2" class="fas fa-star"></label>
-                            <input type="radio" name="vote_average" id="rate-1" value="2" {{#if (isBtwn getRandom.vote_average '2' '4')}}checked{{/if}}>
-                            <label for="rate-1" class="fas fa-star"></label>
+                            <div class="star-widget">
+                            <input type="radio" name="vote_average" id="rates-5" value="8" {{#ifEq rate '8'}}checked{{/ifEq}} >
+                            <label for="rates-5" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rates-4" value="6.5"{{#ifEq rate '6.5'}}checked{{/ifEq}}>
+                            <label for="rates-4" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rates-3" value="5"{{#ifEq rate '5'}}checked{{/ifEq}}>
+                            <label for="rates-3" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rates-2" value="4"{{#ifEq rate '4'}}checked{{/ifEq}}>
+                            <label for="rates-2" class="fas fa-star"></label>
+                            <input type="radio" name="vote_average" id="rates-1" value="2"{{#ifEq rate '2'}}checked{{/ifEq}}>
+                            <label for="rates-1" class="fas fa-star"></label>
                         </div>
+                        </div>
+
+
+                        
                     </form>
                 </div>
                 <p> <span>Average: </span> {{getRandom.vote_average}}</p></span> 

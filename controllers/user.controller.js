@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const mongoose = require('mongoose');
 const createError = ('http-errors');
 const bcrypt = require('bcrypt');
+const Review = require('../models/review.model')
 
 module.exports.create = (req, res, next) => {
     res.render('users/signup' )
@@ -13,7 +14,7 @@ module.exports.doCreate = (req, res, next) => {
     User.findOne({username: req.body.username})
         .then((user) => {
             if (user) {
-                res.status(409).render('users/signup', {user: req.body, errors: {username:'Already exists'}})
+                res.status(409).render('users/signup', {user: req.body, errors: {username:'Username Already exists'}})
             } else {
             
             const user = req.body;
@@ -72,3 +73,21 @@ module.exports.logout = (req, res, next) => {
     res.clearCookie("connect.sid");
     res.redirect('/login');
   }
+
+
+module.exports.profile = (req, res, next) => {
+    const playlists = res.locals.listResult
+    const userInfo = res.locals.currentUser
+
+    Review.find({"owner": userInfo._id})
+        .then((revs) => {
+            console.log(revs)
+            res.render('users/profile')
+        })
+        .catch(next)
+
+
+
+
+    
+}

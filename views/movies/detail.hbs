@@ -1,7 +1,17 @@
 
+<div class="details-page">
 
 
-<section class="movie-details"  {{#if movie.movie_images}}style="background-image: url('https://image.tmdb.org/t/p/w780{{movie.movie_images.[1].file_path}}');"{{/if}}>
+        
+
+    <section class="movie-details" {{#if movie.movie_images.length}}
+    {{#if movie.movie_images.[1]}}
+        style="background-image: url('https://image.tmdb.org/t/p/w500{{movie.movie_images.[1].file_path}}');"
+    {{else}}
+        style="background-image: url('https://image.tmdb.org/t/p/w500{{movie.movie_images.[0].file_path}}');"
+    {{/if}}
+{{/if}}>
+
 <div class="movie-details-bg"></div>
 
 <div class="movie-main-info">
@@ -35,33 +45,40 @@
         </div>
 
         <div class="movie-details2">
-            <div class="random-stars">
-                    <form action="/vote" method="POST">
-                        <div class="star-widget">
-                            <input  type="radio" name="vote_average" id="rate-5"  value="8" {{#if (isBtwn movie.vote_average '8' '10')}}checked{{/if}}>
-                            <label  for="rate-5" class="fas fa-star"></label>                     
-                            <input type="radio" name="vote_average" id="rate-4" value="6.5" {{#if (isBtwn movie.vote_average '6.5' '8')}}checked{{/if}}>
-                            <label for="rate-4" class="fas fa-star"></label>                           
-                            <input type="radio" name="vote_average" id="rate-3" value="5" {{#if (isBtwn movie.vote_average '5' '6.5')}}checked{{/if}}>
-                            <label for="rate-3" class="fas fa-star"></label>                        
-                            <input type="radio" name="vote_average" id="rate-2" value="4" {{#if (isBtwn movie.vote_average '4' '5')}}checked{{/if}}>
-                            <label for="rate-2" class="fas fa-star"></label>
-                            <input type="radio" name="vote_average" id="rate-1" value="2" {{#if (isBtwn movie.vote_average '2' '4')}}checked{{/if}}>
-                            <label for="rate-1" class="fas fa-star"></label>
-                        </div>
-                    </form>
-            </div>
+
+                <div class="random-stars">
+                            <div class="star-widget">
+                                <i class="fas fa-star star  {{#grt movie.vote_average "8"}}rev-star-check{{/grt}}"></i>
+                                <i class="fas fa-star star {{#grt movie.vote_average "6.5"}}rev-star-check{{/grt}}"></i> 
+                                <i class="fas fa-star star {{#grt movie.vote_average 5}}rev-star-check{{/grt}}"></i> 
+                                <i class="fas fa-star star {{#grt movie.vote_average 4}}rev-star-check{{/grt}}"></i> 
+                                <i class="fas fa-star star {{#grt movie.vote_average 2}}rev-star-check{{/grt}}"></i> 
+                            </div>
+                </div>
+
+
+
+<a class="vote-btn" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Vote</a>
+
+
+                
+    
+                            
+                                
+                
 
                 <p> <span>Average: </span> {{movie.vote_average}}</p></span> 
                 <p><span>Votes: </span> {{movie.vote_count}}</p></span> 
                         {{#if currentUser}}
                         <button class="like-btn like-btn-details liked" data-id="{{movie._id}}"><i class="fas fa-heart"></i></button>
                         {{/if}}
-                 <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
+                        <button class="addtolist-btn-details" type="button" data-toggle="collapse" data-target="#collapsePlaylistsDetail">
                             <i class="fa-solid fa-plus"></i>
                         </button>
 
-                        <div class="collapse-div" id="collapsePlaylists{{index}}">
+                        
+
+                        <div class="collapse-div" id="collapsePlaylistsDetail">
                             <strong>Add to list:</strong>                              
                             {{#each listResult as |list|}}
                                 <button   class="addtolist-btn-item" data-id="{{../_id}}" data-listid="{{list._id}}">{{list.name}}</button>
@@ -107,6 +124,166 @@
                 </div>
             {{/if}}
         </div>
+
+        <div class="revs-container">
+            
+            <h2 id="revH2">Reviews</h2>
+
+            <div class="send-review">
+            <form  id="reviewForm" action="/send-review" method="POST">
+
+                <div class="rev-userinfo">
+                    <div class="info-rev d-flex">
+
+                        <img class="review-avt" style="background-color: {{currentUser.bgcolor}};" src="{{currentUser.avatar}}" alt="">
+                        <a class="rev-name" href="">{{currentUser.username}}</a>
+                    </div>
+                     <div class="stars-container">
+                    <div class="star-widget">
+                        <input type="radio" name="rating" id="rate-5r" value="9" {{#ifEq rate '9'}}checked{{/ifEq}} >
+                        <label for="rate-5r" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="rate-4r" value="7"{{#ifEq rate '7'}}checked{{/ifEq}}>
+                        <label for="rate-4r" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="rate-3r" value="5"{{#ifEq rate '5'}}checked{{/ifEq}}>
+                        <label for="rate-3r" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="rate-2r" value="3"{{#ifEq rate '3'}}checked{{/ifEq}}>
+                        <label for="rate-2r" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="rate-1r" value="1"{{#ifEq rate '1'}}checked{{/ifEq}}>
+                        <label for="rate-1r" class="fas fa-star"></label>
+                        <input class="hidden" type="text" name="author" value="{{currentUser.username}}">
+                        <input class="hidden" type="number" name="movie_id" value="{{movie.id}}">
+                        <input class="hidden" type="text" name="owner" value="{{currentUser._id}}">
+                        <input type="hidden" id="contentInput" name="content" value="">
+
+                    </div>
+                </div>
+                </div>
+               
+                <div class="review-inputs">
+                    <span id="content" class="textarea" role="textbox" contenteditable></span></p>
+                    <button class="post-btn" type="submit" onclick="submitReview()">Post</button>
+                </div>
+                
+            </form>
+            </div>
+
+            <div class="allRevs">
+                
+
+            <div class="filter-rev d-flex">
+                    <p>Sort by:</p>
+                        <a href="/movies/{{movie._id}}?sortBy=sortDate#revH2" class="{{#if sortByDate}}active{{/if}}">date</a>
+                        <a href="/movies/{{movie._id}}?sortBy=sortRate#revH2" class="{{#if sortByRate}}active{{/if}}">rate</a>
+                    </div>
+            
+             
+            {{#each revs as |rev|}}
+            
+            <div id="edit-review-{{rev._id}}" class="edit-review hidden">
+                    <form id="editForm" action="/edit-review/{{rev._id}}" method="POST">
+
+                        <div class="rev-userinfo">
+                                <div class="info-rev d-flex">
+
+                                <img class="review-avt" style="background-color: {{../currentUser.bgcolor}};" src="{{../currentUser.avatar}}" alt="">
+                                <a class="rev-name" href="/profile">{{../currentUser.username}}</a>
+
+                            
+                                </div>
+                                 <div class="stars-container" id="stars-container-{{rev._id}}">
+                                    <div class="star-widget">
+                                    <input type="radio" name="rating" id="rate-5r{{rev._id}}" value="9" {{#isBtwn rev.rating 9 10}}checked{{/isBtwn}}>
+                                    <label for="rate-5r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-4r{{rev._id}}" value="7"{{#isBtwn rev.rating 7 9}}checked{{/isBtwn}}>
+                                    <label for="rate-4r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-3r{{rev._id}}" value="5"{{#isBtwn rev.rating 5 7}}checked{{/isBtwn}}>
+                                    <label for="rate-3r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-2r{{rev._id}}" value="3"{{#isBtwn rev.rating 3 5}}checked{{/isBtwn}}>
+                                    <label for="rate-2r{{rev._id}}" class="fas fa-star"></label>
+                                    <input type="radio" name="rating" id="rate-1r{{rev._id}}" value="1"{{#isBtwn rev.rating 1 3}}checked{{/isBtwn}}>
+                                    <label for="rate-1r{{rev._id}}" class="fas fa-star"></label>
+
+                                    <input class="hidden" type="text" name="author" value="{{../currentUser.username}}">
+                                    <input class="hidden" type="number" name="movie_id" value="{{../movie.id}}">
+                                    <input class="hidden" type="text" name="movieObjectId" value="{{../movie._id}}">
+                                    <input class="hidden" type="text" name="owner" value="{{../currentUser._id}}">
+                                    <input type="hidden" id="contentEditInput" name="content" value="">
+
+                                 </div>
+                                </div>
+                                        
+                                    
+                        </div>
+                    
+                        <div class="review-inputs">
+                            <span id="contentEdit" class="textarea" role="textbox" contenteditable>{{rev.content}}</span></p>
+
+                            <div class="align-self-end">
+                                <button type="button" class=" send-edit-btn cancel-edit-btn" id="cancel-{{rev._id}}">Cancel</button>
+                                <button class="send-edit-btn" type="submit" onclick="editReview()">Edit</button>
+                            </div>
+                            
+
+                        </div>
+                    </form>
+            </div>
+
+            <div id="review-{{rev._id}}" class="review">
+                 
+
+                <div class="rev-userinfo rev-userinfo-{{rev._id}}">
+                    
+                    <div class="info-rev d-flex ">
+                        {{#if rev.owner.avatar }}
+                        <img class="review-avt" style="background-color: {{rev.owner.bgcolor}};" src="{{rev.owner.avatar}}" alt="">
+                        {{else}}
+                        <img class="review-avt" style="background-color: #ffffff;"  src= "https://robohash.org/ecKARbAyhJ?set=set4" alt="">
+                        {{/if}}
+                        <a class="rev-name" href="">{{rev.author}}</a>
+                    </div>
+                    
+
+                    <div class="rev-info-right">
+                        <div class="crud-div">
+                        {{#ifEq ../currentUser.username rev.author }}
+                            <form action="/delete-rev/{{rev._id}}" method="post">
+                                <input class="hidden" type="text" name="movieObjectId" value="{{../movie._id}}">
+                                <button type="submit" class="trash-btn">  <i class="fa-solid fa-trash-can"></i></button>
+                            </form>
+                            
+                            <button id="{{rev._id}}" class="edit-btn">  <i class="fa-solid fa-pen-to-square"></i></button>
+                        {{/ifEq}}
+                    </div>
+                    
+
+                    <div class="stars-container">
+                        <div class="star-widget">
+                            <span class="star"><i class="fas fa-star  {{#grt rev.rating 9}}rev-star-check{{/grt}}"></i> </span>
+                            <span class="star"><i class="fas fa-star  {{#grt rev.rating 7}}rev-star-check{{/grt}}"></i> </span>
+                            <span class="star"><i class="fas fa-star  {{#grt rev.rating 5}}rev-star-check{{/grt}}"></i> </span>
+                            <span class="star"><i class="fas fa-star  {{#grt rev.rating 3}}rev-star-check{{/grt}}"></i> </span>
+                            <span class="star"><i class="fas fa-star  {{#grt rev.rating 1}}rev-star-check{{/grt}}"></i> </span> 
+                        </div>
+                </div>
+                    </div>
+                    
+
+
+
+                    
+                </div>
+                <div class="rev-content rev-content-{{rev._id}}">
+                    <p>{{{rev.content}}}</p>
+                    <p class="date-p"> <br> Published:  {{#if rev.updatedAt}} {{rev.updatedAt}} {{else}}{{rev.created_at}}{{/if}}</p>
+                </div>
+                <div class="separator"></div>
+            </div>
+            {{/each}}
+            </div>
+        </div>
+        
+
+
     </div>
     <div class="detail-aside">
     <h2>Images</h2>
@@ -114,7 +291,7 @@
         {{#if movie.movie_images}}
             {{#each (slice movie.movie_images 0 27) as |image index|}}
             
-                    <div class="image-container">
+                      <div class="image-container">
                         <div class="image-overlay"></div>
                         <img src="https://image.tmdb.org/t/p/w300{{image.file_path}}" alt="Image {{index}}">
                     </div>
@@ -129,30 +306,95 @@
 
     <h2>Recomendations</h2>
     <div class="recomendation-grid">
-        {{#if movie.movie_images}}
-            {{#each (slice movie.movie_images 0 27) as |image index|}}
-            
-                    <div class="image-container">
-                        <div class="image-overlay"></div>
-                        <img src="https://image.tmdb.org/t/p/w300{{image.file_path}}" alt="Image {{index}}">
+       
+    {{#if movie.movie_recommendations}}
+        {{#each (slice movie.movie_recommendations 0 18) as |recom index|}}
+            {{#if recom.poster_path}}
+                <div class="image-container">
+                    <div class="overlay d-flex flex-column">
+                        <p class="overlay-recom-title">{{recom.title}}</p>
+                        <p class="overlay-recom-genre mb-4">
+                            
+                               {{#each recom.genre_ids as |id|}}
+                                {{#newGenre id}}  {{/newGenre}}
+                                {{/each}}
+                        </p>
                     </div>
-                
-            {{/each}}   
-        {{else}}
-                 <div class="speech left"> 
-                        <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; No images available</p>
+                    <img src="https://image.tmdb.org/t/p/w300{{recom.poster_path}}" alt="Image {{index}}">
                 </div>
-         {{/if}}
+            {{/if}}
+        {{/each}}   
+    {{else}}
+        <div class="speech left"> 
+            <p><i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp; No images available</p>
+        </div>
+    {{/if}}
+
     </div>
     
 </div>
 </div>
 
 
+</div>
 
+<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <p>Rate the movie</p>
+         <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form class="d-flex flex-column" action="/vote-movie" method="post">
+            <div class="star-widget mb-4">
+                <input type="radio" name="rating" id="rate-5s" value="9"  >
+                <label for="rate-5s" class="fas fa-star"></label>
+                <input type="radio" name="rating" id="rate-4s" value="7">
+                <label for="rate-4s" class="fas fa-star"></label>
+                <input type="radio" name="rating" id="rate-3s" value="5">
+                <label for="rate-3s" class="fas fa-star"></label>
+                <input type="radio" name="rating" id="rate-2s" value="3">
+                <label for="rate-2s" class="fas fa-star"></label>
+                <input type="radio" name="rating" id="rate-1s" value="1">
+                <label for="rate-1s" class="fas fa-star"></label>
+                <input class="hidden" type="text" name="movieId" value="{{movie.id}}">
+                <input class="hidden" type="text" name="movieObjectId" value="{{movie._id}}">
+
+            </div>
+            <button type="submit" class="vote-btn">Vote</button>
+        </form>
+      </div>
+      <div class="modal-footer d-none">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="/scripts/sortRevs.js"></script>
+<script src="/scripts/addToListBtn.js"></script>
 <script src="/scripts/addToListSc.js"></script>
 <script src="/scripts/like.js"></script>
 <script src="/scripts/createList.js"></script>
 <script src="/scripts/addToListBtn.js"></script>
+<script src="/scripts/editRev.js"></script>
+
+<script>
+    function submitReview() {
+    let content = document.getElementById('content').innerText;
+    document.getElementById('contentInput').value = content;
+    document.getElementById('reviewForm').submit();
+}
+
+    function editReview() {
+    let content = document.getElementById('contentEdit').innerText;
+    document.getElementById('contentEditInput').value = content;
+    document.getElementById('editForm').submit();
+}
+</script>
+
+
 
 

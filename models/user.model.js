@@ -39,6 +39,9 @@ const userSchema = new Schema(
         },
         likes: {
            type: [String] 
+        },
+        voted_movies: {
+            type: [String]
         }
         
     },

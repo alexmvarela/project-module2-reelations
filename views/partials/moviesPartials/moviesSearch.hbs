@@ -1,15 +1,14 @@
-<h2 class="catalog-h2"><i class="fa-solid fa-clapperboard whiteI"></i> {{list.name}}</h2>
+<h2 class="catalog-h2"><i class="fa-solid fa-clapperboard whiteI"></i> Search results</h2>
 
     <div class="catalog-page">
-             {{#each listMovies as |movie|}}
+             {{#each moviesSearch as |movie|}}
             
                 <div class="page-results">
                     <div class="overlay d-flex flex-column">
                         {{#if ../currentUser}}
 
+                        <button class="delete-list" data-id="{{movie._id}}" data-listdel="{{../list._id}}" >Delete</button>
 
-                        
-                        <button class="delete-list" data-id="{{movie._id}}" data-listdel="{{../list._id}}" ><i class="fa-solid fa-trash-can"></i></button>
 
                         <button class="addtolist-btn" type="button" data-toggle="collapse" data-target="#collapsePlaylists{{index}}">
                             <i class="fa-solid fa-plus"></i>
